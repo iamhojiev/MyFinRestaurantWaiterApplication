@@ -1,0 +1,732 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{16F857C1-0725-4A87-9497-18D747895088}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MyFinCassa</RootNamespace>
+    <AssemblyName>MyFinCassa</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>cashier.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cafe|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Cafe\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Cafe</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Restaurant|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Restaurant\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Restaurant</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FireSharp, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FireSharp.2.0.4\lib\portable-net45+sl5+wp8+win8\FireSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Guna.UI2, Version=2.0.0.1, Culture=neutral, PublicKeyToken=ad275b4be6718d4b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\for kor\Guna_UI_Framework_Ultimate_v2.0.0.1\Guna_UI_Framework_Ultimate_v2.0.0.1\Guna.UI-Framework-Lib-master\Guna.UI2 WinForms\.net 4.0\Guna.UI2.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=110.2.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.110.2.0\lib\net471\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataBase\ImageServerIO.cs" />
+    <Compile Include="Helper\EnumCassaOperationType.cs" />
+    <Compile Include="Helper\EnumMyButtonType.cs" />
+    <Compile Include="Helper\EnumHallType.cs" />
+    <Compile Include="Helper\EnumSalaryLogType.cs" />
+    <Compile Include="Helper\EnumLicenseType.cs" />
+    <Compile Include="Helper\EnumSalaryType.cs" />
+    <Compile Include="Helper\Globals.cs" />
+    <Compile Include="Helper\NetworkHelper.cs" />
+    <Compile Include="Helper\MyHard.cs" />
+    <Compile Include="Helper\LicenseChecker.cs" />
+    <Compile Include="Helper\KeyboardManager.cs" />
+    <Compile Include="Helper\PrinterHelper.cs" />
+    <Compile Include="Helper\ProductCompaper.cs" />
+    <Compile Include="Helper\TransliterationHelper.cs" />
+    <Compile Include="Model\CassaSettings.cs" />
+    <Compile Include="Model\License.cs" />
+    <Compile Include="Model\Recipe.cs" />
+    <Compile Include="Model\TableEventArgs.cs" />
+    <Compile Include="Model\Budget.cs" />
+    <Compile Include="Model\Delivery.cs" />
+    <Compile Include="Model\SalaryManager.cs" />
+    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\Card.cs" />
+    <Compile Include="Model\DetailsProductComplex.cs" />
+    <Compile Include="Model\Cassa.cs" />
+    <Compile Include="Model\Que.cs" />
+    <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\Transactions\TransactionLog.cs" />
+    <Compile Include="Model\Transactions\SalaryLog.cs" />
+    <Compile Include="Model\Transactions\OrderCashLog.cs" />
+    <Compile Include="Model\Transactions\EntryLog.cs" />
+    <Compile Include="Model\Transactions\CassaLog.cs" />
+    <Compile Include="Model\Transactions\BalanceSystem.cs" />
+    <Compile Include="UI_Forms\Alert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\Alert.Designer.cs">
+      <DependentUpon>Alert.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataBase\DataSQL.cs" />
+    <Compile Include="DataBase\MyDB.cs" />
+    <Compile Include="Helper\Dialog.cs" />
+    <Compile Include="Helper\EnumAlertType.cs" />
+    <Compile Include="Helper\EnumCasheType.cs" />
+    <Compile Include="Helper\EnumDetailsStatus.cs" />
+    <Compile Include="Helper\EnumTransactionType.cs" />
+    <Compile Include="Helper\EnumOrderStatus.cs" />
+    <Compile Include="Helper\EnumPaymentType.cs" />
+    <Compile Include="Helper\EnumShift.cs" />
+    <Compile Include="Helper\EnumTablesStatus.cs" />
+    <Compile Include="Helper\EnumOrderType.cs" />
+    <Compile Include="Helper\EnumUserRole.cs" />
+    <Compile Include="Helper\Hash.cs" />
+    <Compile Include="Helper\MyDate.cs" />
+    <Compile Include="Helper\Printer.cs" />
+    <Compile Include="Helper\SettingsJson.cs" />
+    <Compile Include="UI_Forms\Cafe\CafeMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\Cafe\CafeMainForm.Designer.cs">
+      <DependentUpon>CafeMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\DateDisplayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\DateDisplayForm.Designer.cs">
+      <DependentUpon>DateDisplayForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\Restraunt\RestaurantMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\Restraunt\RestaurantMainForm.Designer.cs">
+      <DependentUpon>RestaurantMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Payment.cs" />
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Debug.cs" />
+    <Compile Include="Model\Hall.cs" />
+    <Compile Include="Model\Hard.cs" />
+    <Compile Include="Model\Kitchen.cs" />
+    <Compile Include="Model\Order.cs" />
+    <Compile Include="Model\OrderDetails.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\Shift.cs" />
+    <Compile Include="Model\Stock.cs" />
+    <Compile Include="Model\StockCategory.cs" />
+    <Compile Include="Model\Tables.cs" />
+    <Compile Include="Model\TableStatus.cs" />
+    <Compile Include="Model\Type.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="PageAuthorization.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PageAuthorization.Designer.cs">
+      <DependentUpon>PageAuthorization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI_Forms\AddClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\AddClient.Designer.cs">
+      <DependentUpon>AddClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\Cafe\FrmCafePayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\Cafe\FrmCafePayment.Designer.cs">
+      <DependentUpon>FrmCafePayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\Cafe\FrmPendingOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\Cafe\FrmPendingOrders.Designer.cs">
+      <DependentUpon>FrmPendingOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\DebtOperation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\DebtOperation.Designer.cs">
+      <DependentUpon>DebtOperation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\CassaSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\CassaSelector.Designer.cs">
+      <DependentUpon>CassaSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmCassa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmCassa.Designer.cs">
+      <DependentUpon>FrmCassa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\KeyboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\KeyboardForm.Designer.cs">
+      <DependentUpon>KeyboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderSelect.Designer.cs">
+      <DependentUpon>FrmOrderSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmWaiterSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmWaiterSelect.Designer.cs">
+      <DependentUpon>FrmWaiterSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmTableChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmTableChange.Designer.cs">
+      <DependentUpon>FrmTableChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmCardType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmCardType.Designer.cs">
+      <DependentUpon>FrmCardType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmProdVolume.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmProdVolume.Designer.cs">
+      <DependentUpon>FrmProdVolume.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderSelectTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderSelectTable.Designer.cs">
+      <DependentUpon>FrmOrderSelectTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmCashe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmCashe.Designer.cs">
+      <DependentUpon>FrmCashe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderComment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderComment.Designer.cs">
+      <DependentUpon>FrmOrderComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\Restraunt\FrmRestrauntPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\Restraunt\FrmRestrauntPayment.Designer.cs">
+      <DependentUpon>FrmRestrauntPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmDeliveryType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmDeliveryType.Designer.cs">
+      <DependentUpon>FrmDeliveryType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmGuestCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmGuestCount.Designer.cs">
+      <DependentUpon>FrmGuestCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrdersList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrdersList.Designer.cs">
+      <DependentUpon>FrmOrdersList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\FrmOrderDetails.Designer.cs">
+      <DependentUpon>FrmOrderDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\PrintCoordinator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\PrintCoordinator.Designer.cs">
+      <DependentUpon>PrintCoordinator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_Forms\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI_Forms\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\a_Cafe\UC_PageCasheCafe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\a_Cafe\UC_PageCasheCafe.Designer.cs">
+      <DependentUpon>UC_PageCasheCafe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Cassa\UC_OrderCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Cassa\UC_OrderCard.Designer.cs">
+      <DependentUpon>UC_OrderCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Cassa\UC_Detail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Cassa\UC_Detail.Designer.cs">
+      <DependentUpon>UC_Detail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\MyButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\MyButton.Designer.cs">
+      <DependentUpon>MyButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\MyTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\MyTable.Designer.cs">
+      <DependentUpon>MyTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\CardBtn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\CardBtn.Designer.cs">
+      <DependentUpon>CardBtn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\PageCashe\CategoryButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\PageCashe\CategoryButton.Designer.cs">
+      <DependentUpon>CategoryButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\a_Restraunt\UC_PageCasheRestraunt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\a_Restraunt\UC_PageCasheRestraunt.Designer.cs">
+      <DependentUpon>UC_PageCasheRestraunt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\PageCashe\UC_ProductWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\PageCashe\UC_ProductWidget.Designer.cs">
+      <DependentUpon>UC_ProductWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Settings\UC_Discount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Settings\UC_Discount.Designer.cs">
+      <DependentUpon>UC_Discount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Cassa\UC_NewCassa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Cassa\UC_NewCassa.Designer.cs">
+      <DependentUpon>UC_NewCassa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_CassaInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_CassaInfo.Designer.cs">
+      <DependentUpon>UC_CassaInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_ShiftChange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_ShiftChange.Designer.cs">
+      <DependentUpon>UC_ShiftChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_HallTableCategories.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_HallTableCategories.Designer.cs">
+      <DependentUpon>UC_HallTableCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_CasheHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_CasheHistory.Designer.cs">
+      <DependentUpon>UC_CasheHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_ShiftHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_ShiftHistory.Designer.cs">
+      <DependentUpon>UC_ShiftHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_IncomingInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_IncomingInfo.Designer.cs">
+      <DependentUpon>UC_IncomingInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_Employee.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Lists\UC_Employee.Designer.cs">
+      <DependentUpon>UC_Employee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_WaiterStats.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\UC_WaiterStats.Designer.cs">
+      <DependentUpon>UC_WaiterStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Settings\UC_PassChange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Settings\UC_PassChange.Designer.cs">
+      <DependentUpon>UC_PassChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI_UserControls\Settings\UC_Logs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI_UserControls\Settings\UC_Logs.Designer.cs">
+      <DependentUpon>UC_Logs.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UI_Forms\Alert.resx">
+      <DependentUpon>Alert.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\Cafe\CafeMainForm.resx">
+      <DependentUpon>CafeMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\DateDisplayForm.resx">
+      <DependentUpon>DateDisplayForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\Restraunt\RestaurantMainForm.resx">
+      <DependentUpon>RestaurantMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PageAuthorization.resx">
+      <DependentUpon>PageAuthorization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UI_Forms\AddClient.resx">
+      <DependentUpon>AddClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\Cafe\FrmCafePayment.resx">
+      <DependentUpon>FrmCafePayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\Cafe\FrmPendingOrders.resx">
+      <DependentUpon>FrmPendingOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\DebtOperation.resx">
+      <DependentUpon>DebtOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\CassaSelector.resx">
+      <DependentUpon>CassaSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmCassa.resx">
+      <DependentUpon>FrmCassa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\KeyboardForm.resx">
+      <DependentUpon>KeyboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmOrderSelect.resx">
+      <DependentUpon>FrmOrderSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmWaiterSelect.resx">
+      <DependentUpon>FrmWaiterSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmTableChange.resx">
+      <DependentUpon>FrmTableChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmCardType.resx">
+      <DependentUpon>FrmCardType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmProdVolume.resx">
+      <DependentUpon>FrmProdVolume.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmOrderSelectTable.resx">
+      <DependentUpon>FrmOrderSelectTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmCashe.resx">
+      <DependentUpon>FrmCashe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmOrderComment.resx">
+      <DependentUpon>FrmOrderComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\Restraunt\FrmRestrauntPayment.resx">
+      <DependentUpon>FrmRestrauntPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmDeliveryType.resx">
+      <DependentUpon>FrmDeliveryType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmGuestCount.resx">
+      <DependentUpon>FrmGuestCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmOrdersList.resx">
+      <DependentUpon>FrmOrdersList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\FrmOrderDetails.resx">
+      <DependentUpon>FrmOrderDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\PrintCoordinator.resx">
+      <DependentUpon>PrintCoordinator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_Forms\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\a_Cafe\UC_PageCasheCafe.resx">
+      <DependentUpon>UC_PageCasheCafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Cassa\UC_OrderCard.resx">
+      <DependentUpon>UC_OrderCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Cassa\UC_Detail.resx">
+      <DependentUpon>UC_Detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Lists\MyButton.resx">
+      <DependentUpon>MyButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Lists\MyTable.resx">
+      <DependentUpon>MyTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\CardBtn.resx">
+      <DependentUpon>CardBtn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\PageCashe\CategoryButton.resx">
+      <DependentUpon>CategoryButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\a_Restraunt\UC_PageCasheRestraunt.resx">
+      <DependentUpon>UC_PageCasheRestraunt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\PageCashe\UC_ProductWidget.resx">
+      <DependentUpon>UC_ProductWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Settings\UC_Discount.resx">
+      <DependentUpon>UC_Discount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Cassa\UC_NewCassa.resx">
+      <DependentUpon>UC_NewCassa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\UC_CassaInfo.resx">
+      <DependentUpon>UC_CassaInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\UC_ShiftChange.resx">
+      <DependentUpon>UC_ShiftChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Lists\UC_HallTableCategories.resx">
+      <DependentUpon>UC_HallTableCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Lists\UC_CasheHistory.resx">
+      <DependentUpon>UC_CasheHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Lists\UC_ShiftHistory.resx">
+      <DependentUpon>UC_ShiftHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\UC_IncomingInfo.resx">
+      <DependentUpon>UC_IncomingInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Lists\UC_Employee.resx">
+      <DependentUpon>UC_Employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\UC_WaiterStats.resx">
+      <DependentUpon>UC_WaiterStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Settings\UC_PassChange.resx">
+      <DependentUpon>UC_PassChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI_UserControls\Settings\UC_Logs.resx">
+      <DependentUpon>UC_Logs.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\MyFinCassa.Model.CassaLog.datasource" />
+    <None Include="Properties\DataSources\MyFinCassa.Model.Order.datasource" />
+    <None Include="Properties\DataSources\MyFinCassa.Model.OrderDetails.datasource" />
+    <None Include="Properties\DataSources\MyFinCassa.Model.Product.datasource" />
+    <None Include="Properties\DataSources\MyFinCassa.Model.Transactions.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Debug.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Hall.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Kitchen.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.MoneyLog.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Order.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.OrderDetails.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Product.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Shift.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.StockCategory.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.Tables.datasource" />
+    <None Include="Properties\DataSources\WaiterApplication.Model.User.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WarningFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Success.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SuccessFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InfoFill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cameraOfBig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cameraOfSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cameraOf_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cameraOf_high.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delivery1.png" />
+    <None Include="Resources\StatusBusy.png" />
+    <None Include="Resources\StatusFree.png" />
+    <None Include="Resources\statusBooked.png" />
+    <None Include="Resources\StsBooked.png" />
+    <None Include="Resources\StsBusy.png" />
+    <None Include="Resources\StsFree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cashier.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>
