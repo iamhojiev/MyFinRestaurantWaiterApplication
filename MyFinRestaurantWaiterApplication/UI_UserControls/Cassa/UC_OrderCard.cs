@@ -108,7 +108,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
 
         private async Task UpdateProducts(Order order)
         {
-            var complexData = await new DetailsProductComplex().OnLoadAllProdsAsync(order.order_main, true);
+            var complexData = await new ComplexDataService().OnLoadAllProdsAsync(order.order_main, true);
             if (complexData?.Products != null)
             {
                 products = complexData.Products;
@@ -217,7 +217,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
         {
             if (myOrder != null)
             {
-                var complexData = await new DetailsProductComplex().OnLoadAllProdsAsync(myOrder.order_main, true);
+                var complexData = await new ComplexDataService().OnLoadAllProdsAsync(myOrder.order_main, true);
 
                 // Only update if the products list has changed
                 if (complexData?.Products != null && !IsEqual(products, complexData.Products))

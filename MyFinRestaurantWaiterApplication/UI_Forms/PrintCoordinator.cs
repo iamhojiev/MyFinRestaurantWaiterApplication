@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Drawing.Printing;
 using System.Collections.Generic;
 using MyFinCassa.Model;
 using MyFinCassa.Helper;
-using MyFinCassa.Database;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyFinCassa.UI_Forms
 {
     public partial class PrintCoordinator : Form
     {
+
         public PrintCoordinator()
         {
             InitializeComponent();
@@ -21,21 +22,23 @@ namespace MyFinCassa.UI_Forms
             timer1.Stop();
             try
             {
-                var orderToPrint = await new Order().SelectOrdersForPrintAsync();
-                if (orderToPrint != null)
+                var ordersToPrint = await new ComplexDataService().GetOrdersForPrintAsync();
+                foreach (var order in ordersToPrint)
                 {
-                    var kitchens = await new Kitchen().OnLoadAsync();
-                    foreach (var kitchen in kitchens)
-                    {
-                        var complexData = await new DetailsProductComplex()
-                            .OnSelectByKitchenAsync(orderToPrint.order_main, orderToPrint.order_sub, kitchen.kitchen_id, true);
+                    var groupedByKitchen = order.products
+                        .GroupBy(product => product.kitchen)
+                        .ToList();
 
-                        if (complexData.Products.Count > 0)
-                        {
-                            OnPrintWaiterOrder(complexData.Products, orderToPrint, kitchen);
-                        }
+                    // Поочередно обрабатываем каждую группу продуктов
+                    foreach (var group in groupedByKitchen)
+                    {
+                        // group.Key – объект Kitchen, по которому сгруппированы продукты
+                        // group.ToList() – список продуктов для данной кухни
+                        PrinterHelper.PrintWaiterOrderReceipt(group.ToList(), order, group.Key);
                     }
-                    await new Order().OnUpdatePrintStatusAsync(orderToPrint);
+
+                    // Обновляем статус печати для заказа после обработки всех групп
+                    await new Order().OnUpdatePrintStatusAsync(order);
                 }
             }
             catch (Exception ex)
@@ -47,5 +50,21 @@ namespace MyFinCassa.UI_Forms
                 timer1.Start();
             }
         }
+
     }
 }
+//var orderToPrint = await new Order().SelectOrdersForPrintAsync();
+//if (orderToPrint != null)
+//{
+//    foreach (var kitchen in kitchens)
+//    {
+//        var complexData = await new ComplexDataService()
+//            .OnSelectByKitchenAsync(orderToPrint.order_main, orderToPrint.order_sub, kitchen.kitchen_id, true);
+
+//        if (complexData.Products.Count > 0)
+//        {
+//            PrinterHelper.PrintWaiterOrderReceipt(complexData.Products, orderToPrint, kitchen);
+//        }
+//    }
+//    await new Order().OnUpdatePrintStatusAsync(orderToPrint);
+//}

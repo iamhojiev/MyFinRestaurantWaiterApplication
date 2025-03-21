@@ -31,21 +31,31 @@ namespace MyFinCassa.UI_Forms
         private async void InitMyCassa()
         {
             timerProgress.Stop();
+
+            // Пытаемся загрузить выбранную кассу
             var myCassa = await new Cassa().OnSelectCassaAsync(Settings.Default.mycassa_id);
-            if (myCassa == null)
+
+            // Если касса не найдена, предлагаем пользователю выбрать
+            if (myCassa == null && !SelectCassa())
             {
-                CassaSelector cassaSelector = new CassaSelector();
+                ShowError("Ошибка выбора кассы.");
+            }
+
+            timerProgress.Start();
+        }
+
+        private bool SelectCassa()
+        {
+            using (var cassaSelector = new CassaSelector())
+            {
                 if (cassaSelector.ShowDialog() == DialogResult.OK)
                 {
                     Settings.Default.mycassa_id = cassaSelector.SelectedCassa.cassa_id;
                     Settings.Default.Save();
-                }
-                else
-                {
-                    Application.Exit();
+                    return true;
                 }
             }
-            timerProgress.Start();
+            return false;
         }
 
         private void InitVersionLabel()
@@ -75,24 +85,17 @@ namespace MyFinCassa.UI_Forms
             var myLicense = await new License().OnSelectAsync();
             if (myLicense == null)
             {
-                LicenseErrorShow("Лицензия не была найдена. Возможно, она истекла или отсутствует.");
+                ShowError("Лицензия не была найдена. Возможно, она истекла или отсутствует.");
                 return;
             }
 
             if (!LicenseUtility.IsLicenseValid(myLicense, out string reason))
             {
-                LicenseErrorShow(reason);
-            }
-
-            bool isInternetAvailable = await NetworkHelper.IsInternetAvailableAsync();
-
-            if (isInternetAvailable)
-            {
-
+                ShowError(reason);
             }
         }
 
-        private void LicenseErrorShow(string error)
+        private void ShowError(string error)
         {
             MessageBox.Show(error, "Ошибка лицензии!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Environment.Exit(0);

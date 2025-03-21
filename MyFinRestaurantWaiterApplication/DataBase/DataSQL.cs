@@ -20,7 +20,7 @@ namespace MyFinCassa.Database
         public static SettingsJson OnMyConfig()
         {
             var path = Environment.CurrentDirectory + @"\Config.json";
-            var json = File.ReadAllText(path, Encoding.GetEncoding(1251));
+            var json = File.ReadAllText(path, Encoding.UTF8);
             SettingsJson config = JsonConvert.DeserializeObject<SettingsJson>(json);
 
             return config;

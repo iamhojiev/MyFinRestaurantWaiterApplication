@@ -9,19 +9,11 @@ namespace MyFinCassa.Model
 {
     public class User
     {
-        [JsonProperty(PropertyName = "user_id")]
         public int user_id { get; set; }
-
-        [JsonProperty(PropertyName = "user_name")]
         public string user_name { get; set; }
-
-        [JsonProperty(PropertyName = "user_password")]
         public string user_password { get; set; }
-
-        [JsonProperty(PropertyName = "user_role")]
         public int user_role { get; set; }
         public int user_kitchen { get; set; }
-
         public double user_salary { get; set; }
         public int user_salary_type { get; set; }
         public string user_last_payment { get; set; }

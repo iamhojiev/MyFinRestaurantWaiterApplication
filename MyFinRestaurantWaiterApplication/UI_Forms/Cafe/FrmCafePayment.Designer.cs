@@ -641,7 +641,7 @@
             this.prod_name.MinimumWidth = 6;
             this.prod_name.Name = "prod_name";
             this.prod_name.ReadOnly = true;
-            this.prod_name.Width = 162;
+            this.prod_name.Width = 133;
             // 
             // prod_price
             // 
@@ -780,9 +780,9 @@
             // guna2Separator9
             // 
             this.guna2Separator9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.guna2Separator9.Location = new System.Drawing.Point(149, 25);
+            this.guna2Separator9.Location = new System.Drawing.Point(126, 25);
             this.guna2Separator9.Name = "guna2Separator9";
-            this.guna2Separator9.Size = new System.Drawing.Size(15, 10);
+            this.guna2Separator9.Size = new System.Drawing.Size(60, 10);
             this.guna2Separator9.TabIndex = 7;
             // 
             // txtIn
@@ -790,9 +790,9 @@
             this.txtIn.AutoSize = true;
             this.txtIn.Dock = System.Windows.Forms.DockStyle.Right;
             this.txtIn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIn.Location = new System.Drawing.Point(164, 0);
+            this.txtIn.Location = new System.Drawing.Point(186, 0);
             this.txtIn.Name = "txtIn";
-            this.txtIn.Size = new System.Drawing.Size(156, 45);
+            this.txtIn.Size = new System.Drawing.Size(134, 37);
             this.txtIn.TabIndex = 1;
             this.txtIn.Text = " 999,99 p.";
             // 
@@ -803,7 +803,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 45);
+            this.label1.Size = new System.Drawing.Size(126, 37);
             this.label1.TabIndex = 0;
             this.label1.Text = "Внесено:";
             // 
@@ -822,9 +822,9 @@
             // guna2Separator8
             // 
             this.guna2Separator8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.guna2Separator8.Location = new System.Drawing.Point(162, 25);
+            this.guna2Separator8.Location = new System.Drawing.Point(136, 25);
             this.guna2Separator8.Name = "guna2Separator8";
-            this.guna2Separator8.Size = new System.Drawing.Size(2, 10);
+            this.guna2Separator8.Size = new System.Drawing.Size(50, 10);
             this.guna2Separator8.TabIndex = 7;
             // 
             // txtAmount
@@ -832,9 +832,9 @@
             this.txtAmount.AutoSize = true;
             this.txtAmount.Dock = System.Windows.Forms.DockStyle.Right;
             this.txtAmount.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAmount.Location = new System.Drawing.Point(164, 0);
+            this.txtAmount.Location = new System.Drawing.Point(186, 0);
             this.txtAmount.Name = "txtAmount";
-            this.txtAmount.Size = new System.Drawing.Size(156, 45);
+            this.txtAmount.Size = new System.Drawing.Size(134, 37);
             this.txtAmount.TabIndex = 1;
             this.txtAmount.Text = " 999,99 p.";
             // 
@@ -845,7 +845,7 @@
             this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(162, 45);
+            this.label3.Size = new System.Drawing.Size(136, 37);
             this.label3.TabIndex = 0;
             this.label3.Text = "Осталось:";
             // 
@@ -899,7 +899,7 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(225, 48);
+            this.label2.Size = new System.Drawing.Size(187, 41);
             this.label2.TabIndex = 1;
             this.label2.Text = "Наличными:";
             this.label2.Click += new System.EventHandler(this.PnlCashe_Click);
@@ -919,9 +919,9 @@
             // guna2Separator7
             // 
             this.guna2Separator7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.guna2Separator7.Location = new System.Drawing.Point(115, 25);
+            this.guna2Separator7.Location = new System.Drawing.Point(98, 25);
             this.guna2Separator7.Name = "guna2Separator7";
-            this.guna2Separator7.Size = new System.Drawing.Size(49, 10);
+            this.guna2Separator7.Size = new System.Drawing.Size(88, 10);
             this.guna2Separator7.TabIndex = 6;
             // 
             // txtZdacha
@@ -929,9 +929,9 @@
             this.txtZdacha.AutoSize = true;
             this.txtZdacha.Dock = System.Windows.Forms.DockStyle.Right;
             this.txtZdacha.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtZdacha.Location = new System.Drawing.Point(164, 0);
+            this.txtZdacha.Location = new System.Drawing.Point(186, 0);
             this.txtZdacha.Name = "txtZdacha";
-            this.txtZdacha.Size = new System.Drawing.Size(156, 45);
+            this.txtZdacha.Size = new System.Drawing.Size(134, 37);
             this.txtZdacha.TabIndex = 1;
             this.txtZdacha.Text = " 999,99 p.";
             // 
@@ -942,7 +942,7 @@
             this.label4.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 45);
+            this.label4.Size = new System.Drawing.Size(98, 37);
             this.label4.TabIndex = 0;
             this.label4.Text = "Сдача:";
             // 
@@ -970,9 +970,9 @@
             this.txtSumma.AutoSize = true;
             this.txtSumma.Dock = System.Windows.Forms.DockStyle.Right;
             this.txtSumma.Font = new System.Drawing.Font("Segoe UI Semibold", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtSumma.Location = new System.Drawing.Point(78, 0);
+            this.txtSumma.Location = new System.Drawing.Point(121, 0);
             this.txtSumma.Name = "txtSumma";
-            this.txtSumma.Size = new System.Drawing.Size(242, 65);
+            this.txtSumma.Size = new System.Drawing.Size(199, 54);
             this.txtSumma.TabIndex = 1;
             this.txtSumma.Text = " 999,99 p.";
             // 
@@ -983,7 +983,7 @@
             this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(237, 65);
+            this.label5.Size = new System.Drawing.Size(196, 54);
             this.label5.TabIndex = 0;
             this.label5.Text = "К оплате:";
             // 
@@ -1037,7 +1037,7 @@
             this.txtCard.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCard.Location = new System.Drawing.Point(0, 0);
             this.txtCard.Name = "txtCard";
-            this.txtCard.Size = new System.Drawing.Size(145, 48);
+            this.txtCard.Size = new System.Drawing.Size(122, 41);
             this.txtCard.TabIndex = 1;
             this.txtCard.Text = "Картой:";
             this.txtCard.Click += new System.EventHandler(this.PnlCard_Click);

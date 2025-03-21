@@ -10,14 +10,14 @@ namespace MyFinCassa.UI_UserControls.PageCashe
     {
         public string Category { get; private set; }
 
-        public UC_ProductWidget(Product product, string volume, string currency, string category)
+        public UC_ProductWidget(Product product, string currency, string category)
         {
             InitializeComponent();
             Category = category;
-            InitializeProductWidget(product, volume, currency);
+            InitializeProductWidget(product, currency);
         }
 
-        private void InitializeProductWidget(Product product, string volume, string currency)
+        private void InitializeProductWidget(Product product, string currency)
         {
             Container.Tag = product;
             txtTitle.Tag = product;
@@ -25,7 +25,7 @@ namespace MyFinCassa.UI_UserControls.PageCashe
             picProd.Tag = product;
 
             txtTitle.Text = product.prod_name;
-            txtProdPrice.Text = $"{product.prod_price} {currency}/{volume}";
+            txtProdPrice.Text = $"{product.prod_price} {currency}/{product.type.type_name}";
             // txtProdPrice.Text = $"{product.prod_price}\n{currency}/{volume}";
 
             var imageName = $"{product.prod_name}{product.prod_id}.png";

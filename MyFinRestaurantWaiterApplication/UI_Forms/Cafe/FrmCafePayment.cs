@@ -11,10 +11,10 @@ namespace MyFinCassa.UI_Forms.Cafe
 {
     public partial class FrmCafePayment : Form
     {
-
-        public int paymentType;
-        public bool isCardType = false;
-        public bool checkPrint = false;
+        public int SelectedPaymentType { get; set; }
+        public bool IsPaymentByCard { get; set; }
+        public bool PrintCheckFlag { get; set; }
+        public double TotalPaidAmount { get; set; }
 
         private readonly double orderDiscount;
         private readonly double deliveryPrice;
@@ -123,31 +123,32 @@ namespace MyFinCassa.UI_Forms.Cafe
 
             if (cashMoney > 0)
             {
-                paymentType = (int)EnumPaymentType.Money;
+                SelectedPaymentType = (int)EnumPaymentType.Money;
             }
             else if (cardMoney > 0)
             {
-                paymentType = (int)EnumPaymentType.Card;
+                SelectedPaymentType = (int)EnumPaymentType.Card;
             }
             else
             {
-                paymentType = (int)EnumPaymentType.Mixed;
+                SelectedPaymentType = (int)EnumPaymentType.Mixed;
             }
 
-            if (paymentType == (int)EnumPaymentType.Money)
+            if (SelectedPaymentType == (int)EnumPaymentType.Money)
             {
                 await UpdateCassaBalance(cashMoney);
             }
-            else if (paymentType == (int)EnumPaymentType.Card)
+            else if (SelectedPaymentType == (int)EnumPaymentType.Card)
             {
                 await UpdateCardBalance(cardMoney);
             }
-            else if (paymentType == (int)EnumPaymentType.Mixed)
+            else if (SelectedPaymentType == (int)EnumPaymentType.Mixed)
             {
                 await UpdateCassaBalance(cashMoney);
                 await UpdateCardBalance(cardMoney);
             }
 
+            TotalPaidAmount = cashMoney + cardMoney;
             DialogResult = DialogResult.OK;
         }
 
@@ -188,7 +189,7 @@ namespace MyFinCassa.UI_Forms.Cafe
 
         private void PnlCard_Click(object sender, EventArgs e)
         {
-            isCardType = true;
+            IsPaymentByCard = true;
             txtGet.Text = txtCardGet.Text;
             pnlCashe.FillColor = Color.WhiteSmoke;
             pnlCard.FillColor = Color.Goldenrod;
@@ -214,7 +215,7 @@ namespace MyFinCassa.UI_Forms.Cafe
 
         private void OnCasheClicked()
         {
-            isCardType = false;
+            IsPaymentByCard = false;
             txtGet.Text = txtCashGet.Text;
             currentInput = txtCashGet.Text;
             pnlCashe.FillColor = Color.Goldenrod;
@@ -225,7 +226,7 @@ namespace MyFinCassa.UI_Forms.Cafe
         {
             double value;
             value = TryParse(txtGet.Text);
-            if (isCardType)
+            if (IsPaymentByCard)
                 txtCardGet.Text = value.ToString("N2");
             else
                 txtCashGet.Text = value.ToString("N2");
@@ -234,7 +235,7 @@ namespace MyFinCassa.UI_Forms.Cafe
         private void BtnAmount_Click(object sender, EventArgs e)
         {
             double payed;
-            if (isCardType)
+            if (IsPaymentByCard)
                 payed = TryParse(txtCashGet.Text);
             else
                 payed = TryParse(txtCardGet.Text);
@@ -349,7 +350,7 @@ namespace MyFinCassa.UI_Forms.Cafe
 
                 if (totalGet >= orderTotalPrice)
                 {
-                    checkPrint = false;
+                    PrintCheckFlag = false;
                     OnFinishPay();
                 }
                 else
@@ -392,7 +393,7 @@ namespace MyFinCassa.UI_Forms.Cafe
 
                 if (totalGet >= orderTotalPrice)
                 {
-                    checkPrint = true;
+                    PrintCheckFlag = true;
                     OnFinishPay();
                 }
                 else

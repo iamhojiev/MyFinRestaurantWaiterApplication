@@ -4,17 +4,14 @@ using System.Data;
 using Guna.UI2.WinForms;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-using System.Drawing.Printing;
 using System.Collections.Generic;
 using MyFinCassa.Helper;
 using MyFinCassa.Properties;
 using MyFinCassa.Model;
 using MyFinCassa.UI_UserControls.PageCashe;
 using MyFinCassa.UI_Forms;
-using MyFinCassa.Database;
 using MyFinCassa.UI_Forms.Cafe;
 using System.Drawing;
-using static Guna.UI2.HtmlRenderer.Adapters.RGraphicsPath;
 
 namespace MyFinCassa.UC
 {
@@ -218,8 +215,8 @@ namespace MyFinCassa.UC
 
                 foreach (var product in oneCategoryProducts)
                 {
-                    var prodValue = prodTypes.FirstOrDefault(u => u.type_id == product.prod_value);
-                    UC_ProductWidget productWidget = new UC_ProductWidget(product, prodValue.type_name, currency, key);
+                    product.type = prodTypes.FirstOrDefault(u => u.type_id == product.prod_value);
+                    UC_ProductWidget productWidget = new UC_ProductWidget(product, currency, key);
                     productWidget.Container.Click += ProductWidget_Click;
                     productWidget.txtTitle.Click += ProductWidget_Click;
                     productWidget.txtProdPrice.Click += ProductWidget_Click;
@@ -250,57 +247,56 @@ namespace MyFinCassa.UC
 
         private void ProductWidget_Click(object sender, EventArgs e)
         {
-            var product = ((Control)sender).Tag as Product;
-            product.type = prodTypes.FirstOrDefault(u => u.type_id == product.prod_value);
-            OnAdd(product);
-
+            if (((Control)sender).Tag is Product product)
+            {
+                product.prod_total = 0;
+                OnAdd(product);
+            }
         }
 
         private async void BtnPay_Click(object sender, EventArgs e)
         {
-            if (dgvProduct.Rows.Count > 0)
+            if (!HasProductsInBasket())
+                return;
+
+            var paymentForm = new FrmCafePayment(basketProducts, GetOrderDiscount(), await GetOrderId());
+            if (paymentForm.ShowDialog() == DialogResult.OK)
             {
-                var paymentForm = new FrmCafePayment(basketProducts, GetOrderDiscount(), await GetOrderId());
-                if (paymentForm.ShowDialog() == DialogResult.OK)
+                if (myOrder == null)
                 {
-                    if (myOrder == null)
-                    {
-                        var idForNewOrder = await GetCurrentOrderId();
-                        if (await OnCreateDefaultOrderAsync(idForNewOrder, status: (int)EnumOrderStatus.Paid, payment: paymentForm.paymentType, comment: orderComment))
-                        {
-                            if (await OnCreateOrderDetailsAsync(idForNewOrder))
-                            {
-                                Dialog.Info("Оплата заказа прошла успешно.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        myOrder.order_price = orderPrice;
-                        myOrder.order_status = (int)EnumOrderStatus.Paid;
-                        myOrder.order_payment = paymentForm.paymentType;
-                        myOrder.order_close_date = MyDate.DateFormat();
-                        await new Order().OnUpdateAsync(myOrder);
-                        await new OrderDetails().OnDeleteAsync(myOrder.order_main, myOrder.order_sub);
+                    var idForNewOrder = await GetCurrentOrderId();
+                    await OnCreateDefaultOrderAsync(idForNewOrder, status: (int)EnumOrderStatus.Paid, payment: paymentForm.SelectedPaymentType, comment: orderComment);
+                    await OnCreateOrderDetailsAsync(idForNewOrder);
 
-                        if (await OnCreateOrderDetailsAsync(myOrder.order_main))
-                        {
-                            Dialog.Info("Оплата заказа прошла успешно.");
-                        }
+                    if (paymentForm.PrintCheckFlag)
+                    {
+                        var lastOrder = await new Order().OnSelectLastAsync();
+                        await InitializeOrder(lastOrder);
+                        PrinterHelper.PrintOrderReceipt(lastOrder, true, paymentForm.TotalPaidAmount);
                     }
 
-                    if (paymentForm.checkPrint)
-                    {
-                        await StartPrint(true, Convert.ToDouble(paymentForm.txtGet.Text));
-                    }
-                    await RemoveProductStocks(basketProducts);
-                    ResetForm();
-                    //casheForm.DialogResult = DialogResult.OK;
+                    Dialog.Info("Оплата заказа прошла успешно.");
                 }
-            }
-            else
-            {
-                Dialog.Error("Необходимо выбрать хотя бы одно блюдо перед оформлением заказа.");
+                else
+                {
+                    myOrder.order_price = orderPrice;
+                    myOrder.order_status = (int)EnumOrderStatus.Paid;
+                    myOrder.order_payment = paymentForm.SelectedPaymentType;
+                    myOrder.order_close_date = MyDate.DateFormat();
+
+                    await new OrderDetails().OnDeleteAsync(myOrder.order_main, myOrder.order_sub);
+                    await new Order().OnUpdateAsync(myOrder);
+                    await OnCreateOrderDetailsAsync(myOrder.order_main);
+
+                    if (paymentForm.PrintCheckFlag)
+                    {
+                        PrinterHelper.PrintOrderReceipt(myOrder, true, paymentForm.TotalPaidAmount);
+                    }
+
+                    Dialog.Info("Оплата заказа прошла успешно.");
+                }
+                await RemoveProductStocks(basketProducts);
+                ResetForm();
             }
         }
 
@@ -326,8 +322,6 @@ namespace MyFinCassa.UC
 
         private double GetOrderDiscount()
         {
-            //if (myOrder == null)
-            //{
             if (double.TryParse(txtDiscount.Text, out var discount))
             {
                 return discount;
@@ -336,11 +330,6 @@ namespace MyFinCassa.UC
             {
                 return 0;
             }
-            //}
-            //else
-            //{
-            //    return myOrder.order_discount;
-            //}
         }
 
         private async Task<int> GetOrderId()
@@ -357,42 +346,41 @@ namespace MyFinCassa.UC
 
         private async void BtnPending_Click(object sender, EventArgs e)
         {
-            if (dgvProduct.Rows.Count > 0)
-            {
-                if (myOrder == null)
-                {
-                    var idForNewOrder = await GetCurrentOrderId();
-                    if (await OnCreateDefaultOrderAsync(idForNewOrder, status: (int)EnumOrderStatus.NotPaid, comment: orderComment))
-                    {
-                        if (await OnCreateOrderDetailsAsync(idForNewOrder))
-                        {
-                            orderComment = string.Empty;
-                            Dialog.Info("Заказ успешно оформлен и сохранён.");
-                            ResetForm();
-                        }
-                    }
-                }
-                else
-                {
-                    myOrder.order_price = orderPrice;
-                    myOrder.order_discount = Convert.ToDouble(txtDiscount.Text);
-                    if (!string.IsNullOrEmpty(orderComment))
-                    {
-                        myOrder.order_comment = orderComment;
-                        orderComment = string.Empty;
-                    }
-                    await new Order().OnUpdateAsync(myOrder);
-                    await new OrderDetails().OnDeleteAsync(myOrder.order_main, myOrder.order_sub);
+            if (!HasProductsInBasket())
+                return;
 
-                    if (await OnCreateOrderDetailsAsync(myOrder.order_main))
+            if (myOrder == null)
+            {
+                var idForNewOrder = await GetCurrentOrderId();
+                if (await OnCreateDefaultOrderAsync(idForNewOrder, status: (int)EnumOrderStatus.NotPaid, comment: orderComment))
+                {
+                    if (await OnCreateOrderDetailsAsync(idForNewOrder))
                     {
+                        orderComment = string.Empty;
                         Dialog.Info("Заказ успешно оформлен и сохранён.");
                         ResetForm();
                     }
                 }
             }
             else
-                Dialog.Error("Необходимо выбрать хотя бы одно блюдо перед оформлением заказа.");
+            {
+                myOrder.order_price = orderPrice;
+                myOrder.order_discount = Convert.ToDouble(txtDiscount.Text);
+                if (!string.IsNullOrEmpty(orderComment))
+                {
+                    myOrder.order_comment = orderComment;
+                    orderComment = string.Empty;
+                }
+                await new Order().OnUpdateAsync(myOrder);
+                await new OrderDetails().OnDeleteAsync(myOrder.order_main, myOrder.order_sub);
+
+                if (await OnCreateOrderDetailsAsync(myOrder.order_main))
+                {
+                    Dialog.Info("Заказ успешно оформлен и сохранён.");
+                    ResetForm();
+                }
+            }
+
         }
 
         private async Task<int> GetCurrentOrderId()
@@ -458,7 +446,7 @@ namespace MyFinCassa.UC
             return await new Order().OnInsertAsync(orders);
         }
 
-        private async Task<bool> OnCreateDeliveryOrderAsync(int orderMain, int deliveryType, int payment, string comment = "")
+        private async Task<bool> OnCreateDeliveryOrderAsync(int orderMain, Hall deliveryType, int payment, string comment = "")
         {
             if (txtDiscount.Text == "")
             {
@@ -473,67 +461,71 @@ namespace MyFinCassa.UC
                 order_date = MyDate.DateFormat(),
                 order_close_date = MyDate.DateFormat(),
                 order_price = orderPrice,
-                order_table = deliveryType,
+                order_table = deliveryType.hall_id,
                 order_delivery = (int)EnumOrderType.Delivery,
                 order_payment = payment,
                 order_status = (int)EnumOrderStatus.Paid,
                 order_discount = Convert.ToDouble(txtDiscount.Text),
                 order_status_cook = (int)EnumDetailsStatus.Ready,
                 order_comment = comment,
+                order_price_hall = deliveryType.hall_price,
             };
             await new Que().IncrementAsync();
 
             return await new Order().OnInsertAsync(orders);
         }
 
-        private void OnAdd(Product aaa)
+        private void OnAdd(Product product)
         {
-            bool check = false;
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
 
-            if (aaa.type.type_id == kgType.type_id)
+            // Если продукт относится к типу "kg", запрашиваем объем через форму
+            if (product.type.type_id == kgType.type_id)
             {
-                var frmVolume = new FrmProdVolume();
-                if (frmVolume.ShowDialog() == DialogResult.OK)
+                using (var frmVolume = new FrmProdVolume())
                 {
-                    aaa.prod_total = frmVolume.Volume;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            foreach (var i in basketProducts)
-            {
-                if (i.prod_id == aaa.prod_id)
-                {
-                    i.prod_total++;
-                    check = true;
-                    break;
+                    if (frmVolume.ShowDialog() == DialogResult.OK)
+                    {
+                        product.prod_total = frmVolume.Volume;
+                    }
+                    else
+                    {
+                        return; // Пользователь отменил ввод объема
+                    }
                 }
             }
 
-            if (!check)
+            // Пытаемся найти продукт в корзине по prod_id
+            var existingProduct = basketProducts.FirstOrDefault(p => p.prod_id == product.prod_id);
+            if (existingProduct != null)
             {
-                var prod = new Product()
+                // Продукт найден – увеличиваем его количество
+                existingProduct.prod_total++;
+            }
+            else
+            {
+                // Продукт не найден – добавляем новый, гарантируя, что количество не меньше 1
+                var newProduct = new Product
                 {
-                    prod_id = aaa.prod_id,
-                    prod_name = aaa.prod_name,
-                    prod_start_price = aaa.prod_start_price,
-                    prod_kitchen = aaa.prod_kitchen,
-                    prod_category = aaa.prod_category,
-                    prod_price = aaa.prod_price,
-                    prod_value = aaa.prod_value,
-                    type = aaa.type,
-                    prod_status = aaa.prod_status,
-                    prod_total = aaa.prod_total == 0 ? 1 : aaa.prod_total
+                    prod_id = product.prod_id,
+                    prod_name = product.prod_name,
+                    prod_start_price = product.prod_start_price,
+                    prod_kitchen = product.prod_kitchen,
+                    prod_category = product.prod_category,
+                    prod_price = product.prod_price,
+                    prod_value = product.prod_value,
+                    type = product.type,
+                    prod_status = product.prod_status,
+                    prod_total = product.prod_total == 0 ? 1 : product.prod_total
                 };
 
-                basketProducts.Add(prod);
+                basketProducts.Add(newProduct);
             }
 
             UpdateProductsGrid();
         }
+
 
         BindingSource productBS = new BindingSource();
         private void UpdateProductsGrid()
@@ -640,7 +632,7 @@ namespace MyFinCassa.UC
                 {
                     if (i.prod_total > 1)
                     {
-                        PrintRemoveProduct(i);
+                        PrintRemoval(i);
                         i.prod_total--;
                     }
                     else
@@ -653,51 +645,67 @@ namespace MyFinCassa.UC
             UpdateProductsGrid();
         }
 
+        private void PrintRemoval(Product i)
+        {
+            if (myOrder != null)
+            {
+                PrinterHelper.PrintProductRemovalReceipt(myOrder, i);
+            }
+        }
+
         private void GridBtnRemoveAll_Click(Product product)
         {
             basketProducts.Remove(product);
-            PrintRemoveProduct(product);
+            PrintRemoval(product);
             UpdateProductsGrid();
         }
 
         private async void BtnDelivery_Click(object sender, EventArgs e)
         {
-            if (dgvProduct.Rows.Count > 0)
-            {
-                var deliveryForm = new FrmDeliveryType();
-                if (deliveryForm.ShowDialog() == DialogResult.OK)
-                {
-                    var paymentForm = new FrmCafePayment(basketProducts, GetOrderDiscount(), await GetOrderId(), deliveryPrice: deliveryForm.selectedHall.hall_price);
-                    if (paymentForm.ShowDialog() == DialogResult.OK)
-                    {
-                        if (myOrder == null)
-                        {
-                            var idForNewOrder = await GetCurrentOrderId();
-                            if (await OnCreateDeliveryOrderAsync(idForNewOrder, deliveryForm.selectedHall.hall_id, payment: paymentForm.paymentType, comment: orderComment))
-                            {
-                                if (await OnCreateOrderDetailsAsync(idForNewOrder))
-                                {
-                                    Dialog.Info("Оплата заказа прошла успешно.");
-                                }
-                            }
+            if (!HasProductsInBasket())
+                return;
 
-                            if (paymentForm.checkPrint)
-                            {
-                                await StartPrint(true, Convert.ToDouble(paymentForm.txtGet.Text));
-                            }
-                            await RemoveProductStocks(basketProducts);
-                            ResetForm();
-                        }
-                        else
+            var deliveryForm = new FrmDeliveryType();
+            if (deliveryForm.ShowDialog() == DialogResult.OK)
+            {
+                var paymentForm = new FrmCafePayment(basketProducts, GetOrderDiscount(), await GetOrderId(), deliveryPrice: deliveryForm.selectedHall.hall_price);
+                if (paymentForm.ShowDialog() == DialogResult.OK)
+                {
+                    if (myOrder == null)
+                    {
+                        var idForNewOrder = await GetCurrentOrderId();
+                        await OnCreateDeliveryOrderAsync(idForNewOrder, deliveryForm.selectedHall, payment: paymentForm.SelectedPaymentType, comment: orderComment);
+                        await OnCreateOrderDetailsAsync(idForNewOrder);
+
+                        if (paymentForm.PrintCheckFlag)
                         {
-                            Dialog.Error("Доставка этого заказа невозможна, так как он находится в статусе 'отложен'");
+                            var lastOrder = await new Order().OnSelectLastAsync();
+                            await InitializeOrder(lastOrder);
+                            PrinterHelper.PrintOrderReceipt(lastOrder, true, paymentForm.TotalPaidAmount);
                         }
+
+                        Dialog.Info("Оплата заказа прошла успешно.");
                     }
+                    else
+                    {
+                        Dialog.Error("Доставка этого заказа невозможна, так как он находится в статусе 'отложен'");
+                    }
+                    await RemoveProductStocks(basketProducts);
+                    ResetForm();
                 }
             }
-            else
-                Dialog.Error("Необходимо выбрать хотя бы одно блюдо перед оформлением заказа.");
         }
+
+        private bool HasProductsInBasket()
+        {
+            if (dgvProduct.Rows.Count == 0)
+            {
+                Dialog.Error("Необходимо выбрать хотя бы одно блюдо перед оформлением заказа.");
+                return false;
+            }
+            return true;
+        }
+
 
         private async Task InitializeOrder(Order order)
         {

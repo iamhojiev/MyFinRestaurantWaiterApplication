@@ -241,7 +241,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
                     }
                 }
             }
-            timer1.Start(); // Перезапуск таймера один раз в конце метода
+            timer1.Start(); 
         }
 
         private void UpdateSumma()
@@ -662,7 +662,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
 
             var aaa = (Order)clickedUserControl.Tag;
 
-            OnPrintCancel(aaa);
+         //   OnPrintCancel(aaa);
 
             if (await new Order().OnDeleteOrderAsync(aaa.order_id))
             {
@@ -676,37 +676,37 @@ namespace MyFinCassa.UI_UserControls.Cassa
             }
         }
 
-        public void OnPrintCancel(Order myOrder)
-        {
-            if (DataSQL.OnMyConfig().printer == "")
-            {
-                return;
-            }
+        //public void OnPrintCancel(Order myOrder)
+        //{
+        //    if (DataSQL.OnMyConfig().printer == "")
+        //    {
+        //        return;
+        //    }
 
-            try
-            {
-                Printer printer = new Printer(myOrder);
+        //    try
+        //    {
+        //        Printer printer = new Printer(myOrder);
 
-                var recordDoc = new PrintDocument
-                {
-                    DocumentName = "Чек"
-                };
-                recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptCancel);
-                recordDoc.PrintController = new StandardPrintController();
+        //        var recordDoc = new PrintDocument
+        //        {
+        //            DocumentName = "Чек"
+        //        };
+        //        recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptCancel);
+        //        recordDoc.PrintController = new StandardPrintController();
 
-                recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printer;
+        //        recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printer;
 
-                if (recordDoc.PrinterSettings.IsValid)
-                {
-                    recordDoc.Print();
-                    recordDoc.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                Dialog.Error(ex.Message);
-            }
-        }
+        //        if (recordDoc.PrinterSettings.IsValid)
+        //        {
+        //            recordDoc.Print();
+        //            recordDoc.Dispose();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Dialog.Error(ex.Message);
+        //    }
+        //}
 
         private void Print(Order myOrder)
         {
@@ -726,7 +726,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
                 {
                     DocumentName = "Чек"
                 };
-                recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptPage);
+                recordDoc.PrintPage += new PrintPageEventHandler(printer.RenderOrderReceiptCafe);
                 recordDoc.PrintController = new StandardPrintController();
 
                 recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printerWaiter;

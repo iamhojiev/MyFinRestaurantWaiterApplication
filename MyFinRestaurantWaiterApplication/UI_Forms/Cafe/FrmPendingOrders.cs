@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using MyFinCassa.Database;
 using MyFinCassa.Helper;
 using MyFinCassa.Model;
+using static Guna.UI2.HtmlRenderer.Adapters.RGraphicsPath;
 using Type = MyFinCassa.Model.Type;
 
 namespace MyFinCassa.UI_Forms.Cafe
@@ -68,7 +69,7 @@ namespace MyFinCassa.UI_Forms.Cafe
             try
             {
                 BindingSource bs = new BindingSource();
-                var orders = (await new Order().OnSelectActiveOrders()).ToList();
+                var orders = await new Order().OnSelectActiveOrders();
 
                 double allOrdersPrice = 0.0;
 
@@ -129,7 +130,13 @@ namespace MyFinCassa.UI_Forms.Cafe
 
         private void dgvOrders_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvOrders.SelectedRows.Count == 0) return;
+            if (dgvOrders.SelectedRows.Count == 0)
+            {
+                detailsBindingSource.Clear();
+                SelectedOrderProducts.Clear();
+                txtDetailsInfo.Text = $"Наименований: 0 | Количество: 0 | Сумма: 0 | Скидка: 0 | Итого: 0";
+                return;
+            }
 
             try
             {
@@ -182,6 +189,10 @@ namespace MyFinCassa.UI_Forms.Cafe
                 await new Order().OnDeleteOrderAsync(SelectedOrder.order_id);
                 await new OrderDetails().OnDeleteAsync(SelectedOrder.order_main, SelectedOrder.order_sub);
                 await UpdateOrdersAsync();
+
+                // Получаем список продуктов из заказа
+                List<Product> products = SelectedOrder.orderDetails.Select(od => od.product).ToList();
+                PrinterHelper.PrintOrderCancelReceipt(SelectedOrder, products);
             }
             catch (Exception ex)
             {
@@ -198,41 +209,7 @@ namespace MyFinCassa.UI_Forms.Cafe
                 return;
             }
 
-            StartPrint(SelectedOrder);
-        }
-
-        public void StartPrint(Order order)
-        {
-            var printerName = DataSQL.OnMyConfig()?.printer;
-
-            if (string.IsNullOrEmpty(printerName))
-            {
-                Dialog.Error("Принтер не настроен.");
-                return;
-            }
-
-            try
-            {
-                using (var recordDoc = new PrintDocument())
-                {
-                    recordDoc.DocumentName = "Чек";
-                    recordDoc.PrinterSettings.PrinterName = printerName;
-
-                    if (!recordDoc.PrinterSettings.IsValid)
-                    {
-                        Dialog.Error("Принтер недоступен.");
-                        return;
-                    }
-
-                    recordDoc.PrintPage += (s, e) => new Printer(order).PrintReceiptPage(this, e);
-                    recordDoc.PrintController = new StandardPrintController();
-                    recordDoc.Print();
-                }
-            }
-            catch (Exception ex)
-            {
-                Dialog.Error($"Ошибка печати: {ex.Message}");
-            }
+            PrinterHelper.PrintOrderReceipt(SelectedOrder);
         }
 
         private void SetLoadingState(bool isLoading)

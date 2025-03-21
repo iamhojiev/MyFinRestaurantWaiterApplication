@@ -31,6 +31,7 @@ namespace MyFinCassa.Model
         public User user { get; set; }
         public Tables tables { get; set; }
         public List<OrderDetails> orderDetails { get; set; }
+        public List<Product> products { get; set; }
 
         public string GetUserName { get { return user?.user_name; } }
         public string GetTableName { get { return tables?.table_name; } }

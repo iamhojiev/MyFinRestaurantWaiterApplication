@@ -24,5 +24,19 @@ namespace MyFinCassa.Model
 
             return source;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Kitchen other)
+            {
+                return this.kitchen_id == other.kitchen_id;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return kitchen_id.GetHashCode();
+        }
     }
 }

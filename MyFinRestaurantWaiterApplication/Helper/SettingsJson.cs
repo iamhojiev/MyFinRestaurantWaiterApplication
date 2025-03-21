@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.IO;
-
+﻿
 namespace MyFinCassa.Helper
 {
     public class SettingsJson

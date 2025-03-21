@@ -245,7 +245,7 @@ namespace MyFinCassa.UC
                 foreach (var product in oneCategoryProducts)
                 {
                     var prodValue = prodTypes.Where(u => u.type_id == product.prod_value).FirstOrDefault();
-                    UC_ProductWidget productWidget = new UC_ProductWidget(product, prodValue.type_name, currency, key);
+                    UC_ProductWidget productWidget = new UC_ProductWidget(product, currency, key);
                     productWidget.Container.Click += ProductWidget_Click;
                     productWidget.txtTitle.Click += ProductWidget_Click;
                     productWidget.txtProdPrice.Click += ProductWidget_Click;
@@ -257,9 +257,11 @@ namespace MyFinCassa.UC
 
         private void ProductWidget_Click(object sender, EventArgs e)
         {
-            var product = ((Control)sender).Tag as Product;
-            product.type = prodTypes.Where(u => u.type_id == product.prod_value).FirstOrDefault();
-            OnAdd(product);
+            if (((Control)sender).Tag is Product product)
+            {
+                product.prod_total = 0;
+                OnAdd(product);
+            }
         }
 
         private async void BtnPay_Click(object sender, EventArgs e)
@@ -280,7 +282,7 @@ namespace MyFinCassa.UC
 
                             if (paymentForm.checkPrint)
                             {
-                                StartPrint(true, Convert.ToDouble(paymentForm.txtGet.Text));
+                              //  StartPrint(true, Convert.ToDouble(paymentForm.txtGet.Text));
                             }
                             casheForm.DialogResult = DialogResult.OK;
                         }
@@ -697,7 +699,7 @@ namespace MyFinCassa.UC
                     if (i.prod_total > 1)
                     {
                         i.prod_total--;
-                        PrintRemoveProduct(i);
+                        //PrintRemoveProduct(i);
                     }
                     else
                         allProducts.Remove(i);
@@ -712,80 +714,80 @@ namespace MyFinCassa.UC
             if (product.prod_status != (int)EnumDetailsStatus.Ready)
             {
                 allProducts.Remove(product);
-                PrintRemoveProduct(product);
+                //PrintRemoveProduct(product);
                 UpdateProductsGrid();
             }
         }
 
         private void BtnCheck_Click(object sender, EventArgs e)
         {
-            if (myOrder != null)
-                StartPrint();
+          //  if (myOrder != null)
+                //StartPrint();
         }
 
-        private void PrintRemoveProduct(Product product)
-        {
-            if (DataSQL.OnMyConfig().printerWaiter == "")
-            {
-                return;
-            }
+        //private void PrintRemoveProduct(Product product)
+        //{
+        //    if (DataSQL.OnMyConfig().printerWaiter == "")
+        //    {
+        //        return;
+        //    }
 
-            if (myOrder != null)
-            {
+        //    if (myOrder != null)
+        //    {
 
-                Printer printer;
+        //        Printer printer;
 
-                printer = new Printer(myOrder, product);
+        //        printer = new Printer(myOrder, product);
 
-                var recordDoc = new PrintDocument
-                {
-                    DocumentName = "Чек"
-                };
-                recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptRemove);
-                recordDoc.PrintController = new StandardPrintController();
+        //        var recordDoc = new PrintDocument
+        //        {
+        //            DocumentName = "Чек"
+        //        };
+        //        recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptRemove);
+        //        recordDoc.PrintController = new StandardPrintController();
 
-                recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printerWaiter;
+        //        recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printerWaiter;
 
-                if (recordDoc.PrinterSettings.IsValid)
-                {
-                    recordDoc.Print();
-                    recordDoc.Dispose();
-                }
-            }
-        }
+        //        if (recordDoc.PrinterSettings.IsValid)
+        //        {
+        //            recordDoc.Print();
+        //            recordDoc.Dispose();
+        //        }
+        //    }
+        //}
 
-        public async void StartPrint(bool type = false, double price = 0.0)
-        {
-            if (DataSQL.OnMyConfig().printer == "")
-            {
-                return;
-            }
+        //public async void StartPrint(bool type = false, double price = 0.0)
+        //{
+        //    if (DataSQL.OnMyConfig().printer == "")
+        //    {
+        //        return;
+        //    }
 
-            Printer printer;
+        //    Printer printer;
 
-            if (myOrder == null)
-                myOrder = await new Order().OnSelectLastAsync();
+        //    if (myOrder == null)
+        //        myOrder = await new Order().OnSelectLastAsync();
 
-            if (type)
-                printer = new Printer(myOrder, true, price);
-            else
-                printer = new Printer(myOrder);
+        //    if (type)
+        //        printer = new Printer(myOrder, true, price);
+        //    else
+        //        printer = new Printer(myOrder);
 
-            var recordDoc = new PrintDocument
-            {
-                DocumentName = "Чек"
-            };
-            recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptPage);
-            recordDoc.PrintController = new StandardPrintController();
+        //    var recordDoc = new PrintDocument
+        //    {
+        //        DocumentName = "Чек"
+        //    };
+        //    recordDoc.PrintPage += new PrintPageEventHandler(printer.RenderOrderReceipt);
+        //    recordDoc.PrintController = new StandardPrintController();
 
-            recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printer;
+        //    recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printer;
 
-            if (recordDoc.PrinterSettings.IsValid)
-            {
-                recordDoc.Print();
-                recordDoc.Dispose();
-            }
-        }
+        //    if (recordDoc.PrinterSettings.IsValid)
+        //    {
+        //        recordDoc.Print();
+        //        recordDoc.Dispose();
+        //    }
+        //}
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
