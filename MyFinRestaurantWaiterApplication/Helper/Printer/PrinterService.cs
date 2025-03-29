@@ -78,7 +78,7 @@ namespace MyFinCassa.Helper
             }
         }
 
-        public static void PrintOrder(Order order, string printerName, bool payed = false, double price = 0.0)
+        public static void PrintOrder(Order order, string printerName, EnumRenderType renderType, bool payed = false, double price = 0.0)
         {
             var printer = payed ? new Printer(order, true, price) : new Printer(order);
 
@@ -87,7 +87,13 @@ namespace MyFinCassa.Helper
                 using (var recordDoc = new PrintDocument())
                 {
                     recordDoc.DocumentName = "Чек";
-                    recordDoc.PrintPage += (s, e) => printer.RenderOrderReceiptCafe(s, e);
+                    recordDoc.PrintPage += (s, e) =>
+                    {
+                        if (renderType == EnumRenderType.Restaurant)
+                            printer.RenderOrderReceiptRestaurant(s, e);
+                        else
+                            printer.RenderOrderReceiptCafe(s, e);
+                    };
                     recordDoc.PrintController = new StandardPrintController();
                     recordDoc.PrinterSettings.PrinterName = printerName;
 

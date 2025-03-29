@@ -33,12 +33,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvMain = new Guna.UI2.WinForms.Guna2DataGridView();
+            this.shiftBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.shiftdateopenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OnCountOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OnSumOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.getUserNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shiftBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shiftBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -117,31 +117,39 @@
             this.dgvMain.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvMain.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvMain_CellDoubleClick);
             // 
+            // shiftBindingSource
+            // 
+            this.shiftBindingSource.DataSource = typeof(MyFinCassa.Model.Shift);
+            // 
             // shiftdateopenDataGridViewTextBoxColumn
             // 
             this.shiftdateopenDataGridViewTextBoxColumn.DataPropertyName = "shift_date_open";
             this.shiftdateopenDataGridViewTextBoxColumn.HeaderText = "Даты начала смены";
+            this.shiftdateopenDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.shiftdateopenDataGridViewTextBoxColumn.Name = "shiftdateopenDataGridViewTextBoxColumn";
             this.shiftdateopenDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // OnStatus
             // 
             this.OnStatus.DataPropertyName = "OnStatus";
-            this.OnStatus.HeaderText = "Даты окончания смены";
+            this.OnStatus.HeaderText = "Дата окончания смены";
+            this.OnStatus.MinimumWidth = 8;
             this.OnStatus.Name = "OnStatus";
             this.OnStatus.ReadOnly = true;
             // 
             // OnCountOrder
             // 
-            this.OnCountOrder.DataPropertyName = "OnCountOrder";
+            this.OnCountOrder.DataPropertyName = "OrdersCount";
             this.OnCountOrder.HeaderText = "Кол-во чеков";
+            this.OnCountOrder.MinimumWidth = 8;
             this.OnCountOrder.Name = "OnCountOrder";
             this.OnCountOrder.ReadOnly = true;
             // 
             // OnSumOrder
             // 
-            this.OnSumOrder.DataPropertyName = "OnSumOrder";
+            this.OnSumOrder.DataPropertyName = "OrdersSum";
             this.OnSumOrder.HeaderText = "Сумма чеков";
+            this.OnSumOrder.MinimumWidth = 8;
             this.OnSumOrder.Name = "OnSumOrder";
             this.OnSumOrder.ReadOnly = true;
             // 
@@ -149,12 +157,9 @@
             // 
             this.getUserNameDataGridViewTextBoxColumn.DataPropertyName = "GetUserName";
             this.getUserNameDataGridViewTextBoxColumn.HeaderText = "Работал";
+            this.getUserNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.getUserNameDataGridViewTextBoxColumn.Name = "getUserNameDataGridViewTextBoxColumn";
             this.getUserNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // shiftBindingSource
-            // 
-            this.shiftBindingSource.DataSource = typeof(MyFinCassa.Model.Shift);
             // 
             // UC_ShiftHistory
             // 

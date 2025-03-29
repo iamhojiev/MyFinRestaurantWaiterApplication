@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBase\ImageServerIO.cs" />
+    <Compile Include="Helper\Enums\EnumAlertType.cs" />
     <Compile Include="Helper\Enums\EnumCassaOperationType.cs" />
     <Compile Include="Helper\Enums\EnumMyButtonType.cs" />
     <Compile Include="Helper\Enums\EnumHallType.cs" />
@@ -172,7 +173,7 @@
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\Transactions\TransactionLog.cs" />
     <Compile Include="Model\Transactions\SalaryLog.cs" />
-    <Compile Include="Model\Transactions\OrderCashLog.cs" />
+    <Compile Include="Model\Transactions\OrderTransaction.cs" />
     <Compile Include="Model\Transactions\EntryLog.cs" />
     <Compile Include="Model\Transactions\CassaLog.cs" />
     <Compile Include="Model\Transactions\BalanceSystem.cs" />
@@ -185,7 +186,7 @@
     <Compile Include="DataBase\DataSQL.cs" />
     <Compile Include="DataBase\MyDB.cs" />
     <Compile Include="Helper\Dialog.cs" />
-    <Compile Include="Helper\Enums\EnumAlertType.cs" />
+    <Compile Include="Helper\Enums\EnumRenderType.cs" />
     <Compile Include="Helper\Enums\EnumCasheType.cs" />
     <Compile Include="Helper\Enums\EnumDetailsStatus.cs" />
     <Compile Include="Helper\Enums\EnumTransactionType.cs" />

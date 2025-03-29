@@ -121,58 +121,56 @@ namespace MyFinCassa.UI_Forms.Cafe
             double cashMoney = Convert.ToDouble(txtCashGet.Text);
             double cardMoney = Convert.ToDouble(txtCardGet.Text);
 
-            if (cashMoney > 0)
-            {
-                SelectedPaymentType = (int)EnumPaymentType.Money;
-            }
-            else if (cardMoney > 0)
-            {
-                SelectedPaymentType = (int)EnumPaymentType.Card;
-            }
-            else
-            {
-                SelectedPaymentType = (int)EnumPaymentType.Mixed;
-            }
+            // Определяем тип платежа
+            var paymentType = DeterminePaymentType(cashMoney, cardMoney);
 
-            if (SelectedPaymentType == (int)EnumPaymentType.Money)
-            {
-                await UpdateCassaBalance(cashMoney);
-            }
-            else if (SelectedPaymentType == (int)EnumPaymentType.Card)
-            {
-                await UpdateCardBalance(cardMoney);
-            }
-            else if (SelectedPaymentType == (int)EnumPaymentType.Mixed)
-            {
-                await UpdateCassaBalance(cashMoney);
-                await UpdateCardBalance(cardMoney);
-            }
+            // Обновляем балансы
+            await UpdateBalances(cashMoney, cardMoney);
 
+            // Создаем транзакцию
+            await CreateTransaction(paymentType, cashMoney, cardMoney);
+
+            SelectedPaymentType = (int)paymentType;
             TotalPaidAmount = cashMoney + cardMoney;
             DialogResult = DialogResult.OK;
         }
 
-        private async Task UpdateCardBalance(double cardMoney)
+        private EnumPaymentType DeterminePaymentType(double cash, double card)
         {
-            if (selectedCard != null && cardMoney > 0)
-            {
-                selectedCard.card_balance += cardMoney;
-                await new Card().OnUpdateAsync(selectedCard);
+            if (cash > 0 && card > 0) return EnumPaymentType.Mixed;
+            return cash > 0 ? EnumPaymentType.Money : EnumPaymentType.Card;
+        }
 
-                await BalanceSystem.Instance.AddCashOperation(EnumPaymentType.Card,cardMoney, orderId, selectedCard.card_id);
+        private async Task UpdateBalances(double cash, double card)
+        {
+            if (cash > 0)
+            {
+                var myCassa = await new Cassa().OnSelectCassaAsync(Settings.Default.mycassa_id);
+                myCassa.cassa_money += cash;
+                await new Cassa().OnUpdateAsync(myCassa);
+            }
+
+            if (card > 0 && selectedCard != null)
+            {
+                selectedCard.card_balance += card;
+                await new Card().OnUpdateAsync(selectedCard);
             }
         }
 
-        private async Task UpdateCassaBalance(double cashMoney)
+        private async Task CreateTransaction(EnumPaymentType paymentType, double cash, double card)
         {
-            if (cashMoney > 0)
+            var transaction = new OrderTransaction
             {
-                var myCassa = await new Cassa().OnSelectCassaAsync(Settings.Default.mycassa_id);
-                myCassa.cassa_money += cashMoney;
-                await new Cassa().OnUpdateAsync(myCassa);
+                transaction_date = MyDate.DateFormat(),
+                transaction_payment_type = paymentType,
+                transaction_order = orderId,
+                transaction_cassa = paymentType != EnumPaymentType.Card ? Settings.Default.mycassa_id : 0,
+                transaction_card = paymentType != EnumPaymentType.Money ? selectedCard?.card_id ?? 0 : 0,
+                transaction_cash_amount = cash,
+                transaction_card_amount = card
+            };
 
-                await BalanceSystem.Instance.AddCashOperation(EnumPaymentType.Money, cashMoney, orderId, myCassa.cassa_id);
-            }
+            await transaction.OnInsertTransactionAsync();
         }
 
 
@@ -273,7 +271,7 @@ namespace MyFinCassa.UI_Forms.Cafe
 
         private void BtnClearAll_Click(object sender, EventArgs e)
         {
-            txtZdacha.Text = $"0,00 {currency}.";
+            txtZdacha.Text = $"0,00 {currency}";
             currentInput = "0,00";
             UpdateLabel();
         }

@@ -108,7 +108,7 @@ namespace MyFinCassa.UI_Forms
                 timerProgress.Stop();
                 isLicenseChecked = true; // Отмечаем, что проверка уже прошла
 
-                await CheckLicenseAsync();
+             //   await CheckLicenseAsync();
 
                 timerProgress.Start();
             }

@@ -21,9 +21,11 @@ namespace MyFinCassa.UI_UserControls.Cassa
         private const int WITH_MYSELF_INDEX = -999;
 
         private List<Order> myOrders;
+        private Dictionary<int, User> userDict;
+        private Dictionary<int, Model.Type> typeDict;
+        private Dictionary<int, Product> productDict;
         private Dictionary<int, Tables> tableDict;
         private Dictionary<int, Hall> hallDict;
-        private Dictionary<int, User> userDict;
         private int myUserRole;
         private string currency;
 
@@ -37,69 +39,61 @@ namespace MyFinCassa.UI_UserControls.Cassa
             InitForm();
         }
 
+        private async Task InitializeModels()
+        {
+            // Загрузка данных
+            var users = await new User().OnAllUserAsync();
+            var products = await new Product().OnLoadAsync();
+            var types = await new Model.Type().OnLoadAsync();
+            var tables = await new Tables().OnLoadAsync();
+            var halls = await new Hall().OnLoadAllAsync();
+
+            // Инициализация словарей
+            userDict = users.ToDictionary(u => u.user_id);
+            productDict = products.ToDictionary(p => p.prod_id);
+            typeDict = types.ToDictionary(t => t.type_id);
+            tableDict = tables.ToDictionary(t => t.table_id);
+            hallDict = halls.ToDictionary(h => h.hall_id);
+
+            currency = await new Currency().OnGetCurrencyValueAsync();
+
+            InitForm();
+        }
+
         private async void InitForm()
         {
-            // Параллельное выполнение асинхронных операций
-            var userTask = new User().OnSelectUserAsync(Settings.Default.user_id);
-            var currencyTask = new Currency().OnGetCurrencyValueAsync();
-            var tablesTask = new Tables().OnLoadAsync();
-            var hallsTask = new Hall().OnLoadAllAsync();
-            var allUsersTask = new User().OnAllUserAsync(true);
-
-            await Task.WhenAll(userTask, currencyTask, tablesTask, hallsTask, allUsersTask);
-
-            var myUser = await userTask;
-            myUserRole = myUser.user_role;
-            txtName.Text = myUser.user_name;
-
+            await InitializeModels();
             await new Order().DeleteNewOrdersAsync();
 
-            var tables = await tablesTask;
-            var halls = await hallsTask;
-            var user = await allUsersTask;
-            currency = await currencyTask;
+            var myUser = await new User().OnSelectUserAsync(Settings.Default.user_id);
+            myUserRole = myUser.user_role;
+            txtName.Text = myUser.user_name;
 
             // Определение заказов
             myOrders = myUserRole == (int)EnumUserRole.Waiter
                 ? await new Order().OnSelectMyOrdersCassaAsync(myUser.user_id)
                 : await new Order().OnSelectAllOrdersCassaAsync();
 
-            // Обновление заказов с использованием Join
-            tableDict = tables.ToDictionary(t => t.table_id);
-            hallDict = halls.ToDictionary(h => h.hall_id);
-            userDict = user.ToDictionary(u => u.user_id);
 
             foreach (var order in myOrders)
             {
-                if (tableDict.TryGetValue(order.order_table, out var table))
-                {
-                    order.tables = table;
-                    if (hallDict.TryGetValue(table.table_hall_id, out var hall))
-                    {
-                        order.tables.hall = hall;
-                    }
-                }
-
-                if (userDict.TryGetValue(order.order_user, out var orderUser))
-                {
-                    order.user = orderUser;
-                }
+                await InitializeOrder(order);
             }
 
-            InitUC(myOrders);
-            ShowControlsOnPage(0);
+            SetupOrderCards(myOrders);
+            ShowPageControls(0);
 
             ManageAccessByUser(myUserRole);
-            ShiftMaxenation();
-            SetUpCmbs();
+            CheckShiftStatus();
+            InitializeUserComboBox();
             UpdateSumma();
-            PrintFormMatcher();
+            ConfigurePrintForm();
 
             timer1.Start();
             timer2.Start();
         }
 
-        private void InitUC(List<Order> ordersToCard)
+        private void SetupOrderCards(List<Order> ordersToCard)
         {
             // Создание карточек заказов и добавление их в myUserControls
             var orderCards = ordersToCard.Select(order => CreateOrderCard(order)).ToList();
@@ -144,7 +138,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
             //CalculatePages();
         }
 
-        private async void PrintFormMatcher()
+        private async void ConfigurePrintForm()
         {
             if (await new CassaSettings().IsPrinterCookingOutputAsync())
             {
@@ -160,7 +154,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
             }
         }
 
-        private async void SetUpCmbs()
+        private async void InitializeUserComboBox()
         {
             List<User> users = new List<User>
             {
@@ -174,7 +168,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
             cmbUser.SelectedIndexChanged += CmbFiltersChange;
         }
 
-        public async void ShiftMaxenation()
+        public async void CheckShiftStatus()
         {
             if (Settings.Default.change_id == 0)
             {
@@ -241,7 +235,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
                     }
                 }
             }
-            timer1.Start(); 
+            timer1.Start();
         }
 
         private void UpdateSumma()
@@ -443,7 +437,27 @@ namespace MyFinCassa.UI_UserControls.Cassa
         {
             if (order == null)
                 order = await new Order().OnSelectLastAsync();
+
+            await InitializeOrder(order);
             myOrders.Add(order);
+
+            orderCard.InitOrder(order);
+            orderCard.ContextMenuStrip = contextMenu;
+            UpdateSumma();
+
+            if (myOrders.Count >= itemsPerPage * totalPages)
+            {
+                AddExtraCards(myUserControls.Count);
+            }
+        }
+
+        private async Task InitializeOrder(Order order, bool initDetails = false)
+        {
+            // Поиск связанных данных через словари
+            if (userDict.TryGetValue(order.order_user, out var user))
+            {
+                order.user = user;
+            }
 
             if (tableDict.TryGetValue(order.order_table, out var table))
             {
@@ -454,18 +468,24 @@ namespace MyFinCassa.UI_UserControls.Cassa
                     order.tables.hall = hall;
                 }
             }
-            if (userDict.TryGetValue(order.order_user, out var user))
-            {
-                order.user = user;
-            }
 
-            orderCard.InitOrder(order);
-            orderCard.ContextMenuStrip = contextMenu;
-            UpdateSumma();
-
-            if (myOrders.Count >= itemsPerPage * totalPages)
+            if (initDetails)
             {
-                AddExtraCards(myUserControls.Count);
+                var details = await new OrderDetails().OnSelectAllOrderDetailsAsync(order.order_main);
+                foreach (var detail in details)
+                {
+                    if (productDict.TryGetValue(detail.details_prod, out var product))
+                    {
+                        detail.product = product;
+
+                        if (typeDict.TryGetValue(product.prod_value, out var type))
+                        {
+                            detail.product.type = type;
+                        }
+                    }
+                    detail.product.prod_total = detail.details_count;
+                }
+                order.orderDetails = details;
             }
         }
 
@@ -645,7 +665,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
 
                 var aaa = (Order)clickedUserControl.Tag;
 
-                Print(aaa);
+          //      PrinterHelper.PrintOrderReceipt(myOrder, true, paymentForm.TotalPaidAmount);
             }
         }
 
@@ -662,7 +682,8 @@ namespace MyFinCassa.UI_UserControls.Cassa
 
             var aaa = (Order)clickedUserControl.Tag;
 
-         //   OnPrintCancel(aaa);
+            //   OnPrintCancel(aaa);
+            //PrinterHelper.PrintOrderCancelReceipt(aaa);
 
             if (await new Order().OnDeleteOrderAsync(aaa.order_id))
             {
@@ -675,38 +696,6 @@ namespace MyFinCassa.UI_UserControls.Cassa
                 Dialog.Info($"Заказ с номером {aaa.order_main} отменен успешно");
             }
         }
-
-        //public void OnPrintCancel(Order myOrder)
-        //{
-        //    if (DataSQL.OnMyConfig().printer == "")
-        //    {
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        Printer printer = new Printer(myOrder);
-
-        //        var recordDoc = new PrintDocument
-        //        {
-        //            DocumentName = "Чек"
-        //        };
-        //        recordDoc.PrintPage += new PrintPageEventHandler(printer.PrintReceiptCancel);
-        //        recordDoc.PrintController = new StandardPrintController();
-
-        //        recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printer;
-
-        //        if (recordDoc.PrinterSettings.IsValid)
-        //        {
-        //            recordDoc.Print();
-        //            recordDoc.Dispose();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Dialog.Error(ex.Message);
-        //    }
-        //}
 
         private void Print(Order myOrder)
         {
@@ -726,7 +715,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
                 {
                     DocumentName = "Чек"
                 };
-                recordDoc.PrintPage += new PrintPageEventHandler(printer.RenderOrderReceiptCafe);
+                recordDoc.PrintPage += new PrintPageEventHandler(printer.RenderOrderReceiptRestaurant);
                 recordDoc.PrintController = new StandardPrintController();
 
                 recordDoc.PrinterSettings.PrinterName = DataSQL.OnMyConfig().printerWaiter;
@@ -889,7 +878,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
             if (currentPage < totalPages - 1)
             {
                 currentPage++;
-                ShowControlsOnPage(currentPage);
+                ShowPageControls(currentPage);
             }
             else
             {
@@ -902,7 +891,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
             if (currentPage > 0)
             {
                 currentPage--;
-                ShowControlsOnPage(currentPage);
+                ShowPageControls(currentPage);
             }
             else
             {
@@ -910,7 +899,7 @@ namespace MyFinCassa.UI_UserControls.Cassa
             }
         }
 
-        private void ShowControlsOnPage(int page)
+        private void ShowPageControls(int page)
         {
             UpdateNavigationDisplay(page);
 

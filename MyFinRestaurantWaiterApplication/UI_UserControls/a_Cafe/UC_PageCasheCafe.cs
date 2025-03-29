@@ -24,6 +24,7 @@ namespace MyFinCassa.UC
         private List<Tables> tables;
         private List<Hall> halls;
 
+
         // Заказ и оплата
         private Order myOrder;
         private double orderPrice = 0.0;
@@ -272,7 +273,7 @@ namespace MyFinCassa.UC
                     {
                         var lastOrder = await new Order().OnSelectLastAsync();
                         await InitializeOrder(lastOrder);
-                        PrinterHelper.PrintOrderReceipt(lastOrder, true, paymentForm.TotalPaidAmount);
+                        PrinterHelper.PrintCafeOrderReceipt(lastOrder, true, paymentForm.TotalPaidAmount);
                     }
 
                     Dialog.Info("Оплата заказа прошла успешно.");
@@ -290,7 +291,7 @@ namespace MyFinCassa.UC
 
                     if (paymentForm.PrintCheckFlag)
                     {
-                        PrinterHelper.PrintOrderReceipt(myOrder, true, paymentForm.TotalPaidAmount);
+                        PrinterHelper.PrintCafeOrderReceipt(myOrder, true, paymentForm.TotalPaidAmount);
                     }
 
                     Dialog.Info("Оплата заказа прошла успешно.");
@@ -681,7 +682,7 @@ namespace MyFinCassa.UC
                         {
                             var lastOrder = await new Order().OnSelectLastAsync();
                             await InitializeOrder(lastOrder);
-                            PrinterHelper.PrintOrderReceipt(lastOrder, true, paymentForm.TotalPaidAmount);
+                            PrinterHelper.PrintCafeOrderReceipt(lastOrder, true, paymentForm.TotalPaidAmount);
                         }
 
                         Dialog.Info("Оплата заказа прошла успешно.");

@@ -151,7 +151,7 @@
             this.label7.Dock = System.Windows.Forms.DockStyle.Top;
             this.label7.Location = new System.Drawing.Point(0, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 40);
+            this.label7.Size = new System.Drawing.Size(131, 32);
             this.label7.TabIndex = 42;
             this.label7.Text = "Официант:";
             // 
@@ -268,7 +268,7 @@
             this.txtSumma.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSumma.Location = new System.Drawing.Point(7, 68);
             this.txtSumma.Name = "txtSumma";
-            this.txtSumma.Size = new System.Drawing.Size(184, 45);
+            this.txtSumma.Size = new System.Drawing.Size(152, 37);
             this.txtSumma.TabIndex = 0;
             this.txtSumma.Text = "{txtSumma}";
             // 
@@ -278,7 +278,7 @@
             this.txtShift.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtShift.Location = new System.Drawing.Point(7, 38);
             this.txtShift.Name = "txtShift";
-            this.txtShift.Size = new System.Drawing.Size(141, 45);
+            this.txtShift.Size = new System.Drawing.Size(116, 37);
             this.txtShift.TabIndex = 0;
             this.txtShift.Text = "{txtShift}";
             // 
@@ -288,7 +288,7 @@
             this.txtName.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtName.Location = new System.Drawing.Point(6, 1);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(203, 55);
+            this.txtName.Size = new System.Drawing.Size(169, 46);
             this.txtName.TabIndex = 0;
             this.txtName.Text = "{txtName}";
             // 
@@ -387,7 +387,7 @@
             this.menuItemPrint,
             this.menuItemCancel});
             this.contextMenu.Name = "contextMenuStrip1";
-            this.contextMenu.Size = new System.Drawing.Size(403, 364);
+            this.contextMenu.Size = new System.Drawing.Size(350, 340);
             // 
             // menuItemPay
             // 
@@ -395,7 +395,7 @@
             this.menuItemPay.Image = ((System.Drawing.Image)(resources.GetObject("menuItemPay.Image")));
             this.menuItemPay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuItemPay.Name = "menuItemPay";
-            this.menuItemPay.Size = new System.Drawing.Size(402, 60);
+            this.menuItemPay.Size = new System.Drawing.Size(349, 56);
             this.menuItemPay.Text = "Оплатить";
             this.menuItemPay.Click += new System.EventHandler(this.MenuItemPay_Click);
             // 
@@ -405,7 +405,7 @@
             this.menuItemSubOrder.Image = ((System.Drawing.Image)(resources.GetObject("menuItemSubOrder.Image")));
             this.menuItemSubOrder.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuItemSubOrder.Name = "menuItemSubOrder";
-            this.menuItemSubOrder.Size = new System.Drawing.Size(402, 60);
+            this.menuItemSubOrder.Size = new System.Drawing.Size(349, 56);
             this.menuItemSubOrder.Text = "Дозаказ";
             this.menuItemSubOrder.Click += new System.EventHandler(this.MenuItemSubOrder_Click);
             // 
@@ -415,7 +415,7 @@
             this.menuItemChangeTable.Image = ((System.Drawing.Image)(resources.GetObject("menuItemChangeTable.Image")));
             this.menuItemChangeTable.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuItemChangeTable.Name = "menuItemChangeTable";
-            this.menuItemChangeTable.Size = new System.Drawing.Size(402, 60);
+            this.menuItemChangeTable.Size = new System.Drawing.Size(349, 56);
             this.menuItemChangeTable.Text = "Сменить стол";
             this.menuItemChangeTable.Click += new System.EventHandler(this.menuItemChangeTable_Click);
             // 
@@ -425,7 +425,7 @@
             this.menuItemChangeOfficiant.Image = ((System.Drawing.Image)(resources.GetObject("menuItemChangeOfficiant.Image")));
             this.menuItemChangeOfficiant.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuItemChangeOfficiant.Name = "menuItemChangeOfficiant";
-            this.menuItemChangeOfficiant.Size = new System.Drawing.Size(402, 60);
+            this.menuItemChangeOfficiant.Size = new System.Drawing.Size(349, 56);
             this.menuItemChangeOfficiant.Text = "Сменить офиц.";
             this.menuItemChangeOfficiant.Click += new System.EventHandler(this.menuItemChangeOfficiant_Click);
             // 
@@ -435,7 +435,7 @@
             this.menuItemPrint.Image = ((System.Drawing.Image)(resources.GetObject("menuItemPrint.Image")));
             this.menuItemPrint.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuItemPrint.Name = "menuItemPrint";
-            this.menuItemPrint.Size = new System.Drawing.Size(402, 60);
+            this.menuItemPrint.Size = new System.Drawing.Size(349, 56);
             this.menuItemPrint.Text = "Печать";
             this.menuItemPrint.Click += new System.EventHandler(this.MenuItemPrint_Click);
             // 
@@ -445,7 +445,7 @@
             this.menuItemCancel.Image = ((System.Drawing.Image)(resources.GetObject("menuItemCancel.Image")));
             this.menuItemCancel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuItemCancel.Name = "menuItemCancel";
-            this.menuItemCancel.Size = new System.Drawing.Size(402, 60);
+            this.menuItemCancel.Size = new System.Drawing.Size(349, 56);
             this.menuItemCancel.Text = "Отменить";
             this.menuItemCancel.Click += new System.EventHandler(this.MenuItemCancel_Click);
             // 

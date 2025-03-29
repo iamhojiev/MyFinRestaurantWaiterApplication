@@ -24,13 +24,13 @@ namespace MyFinCassa.UC
             foreach (var transaction in cassaTransactions)
             {
                 transaction.user = users.FirstOrDefault(u => u.user_id == transaction.transaction_user);
-                if (transaction.transaction_withdrawal_type == EnumWithdrawalType.Наличными)
+                if (transaction.transaction_cassa != 0)
                 {
                     transaction.cassa = cassas?.FirstOrDefault(c => c.cassa_id == transaction.transaction_cassa);
                 }
-                else if (transaction.transaction_withdrawal_type == EnumWithdrawalType.Безналичными)
+                else if (transaction.transaction_card != 0)
                 {
-                    transaction.card = cards?.FirstOrDefault(c => c.card_id == transaction.transaction_cassa);
+                    transaction.card = cards?.FirstOrDefault(c => c.card_id == transaction.transaction_card);
                 }
             }
             dgvMain.DataSource = cassaTransactions;

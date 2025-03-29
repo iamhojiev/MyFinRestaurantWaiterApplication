@@ -79,9 +79,10 @@ namespace MyFinCassa.UC
         private async Task PayUserSalaryAsync(Shift shift)
         {
             var user = await new User().OnSelectUserAsync(Settings.Default.user_id);
-            if (user == null)
+
+            // Проверяем, чтобы пользователь не был администратором
+            if (user == null && user.user_role == (int)EnumUserRole.Admin)
             {
-                Dialog.Error("Не удалось загрузить данные пользователя для расчёта зарплаты.");
                 return;
             }
 
@@ -96,7 +97,7 @@ namespace MyFinCassa.UC
                     break;
 
                 case (int)EnumSalaryType.Percent when user.user_role == (int)EnumUserRole.Waiter:
-                    double percent = await shift.WaiterPercentInShiftAsync();
+                    double percent = await shift.GetWaiterEarningsAsync();
                     if (percent > 0)
                     {
                         string result = $"За смену №{shift.shift_id} ({shift.shift_date_open} - {shift.shift_date_close})";
@@ -105,6 +106,7 @@ namespace MyFinCassa.UC
                     break;
             }
         }
+
 
         public async Task UpdateTextAsync()
         {

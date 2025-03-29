@@ -1,6 +1,4 @@
-﻿
-
-namespace MyFinCassa.Helper
+﻿namespace MyFinCassa.Helper
 {
     public enum EnumPaymentType
     {

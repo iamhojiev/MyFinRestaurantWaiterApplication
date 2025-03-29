@@ -37,10 +37,8 @@
             this.transactioncassaoperationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.transactionamountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.getSourceStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.transactionsourcebalanceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.getSourceDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.transactiondateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.userDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cassaLogBindingSource)).BeginInit();
@@ -72,10 +70,8 @@
             this.transactioncassaoperationDataGridViewTextBoxColumn,
             this.transactionamountDataGridViewTextBoxColumn,
             this.getSourceStringDataGridViewTextBoxColumn,
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn,
-            this.transactionsourcebalanceDataGridViewTextBoxColumn,
-            this.getSourceDescriptionDataGridViewTextBoxColumn,
             this.transactiondateDataGridViewTextBoxColumn,
+            this.Column1,
             this.userDataGridViewTextBoxColumn});
             this.dgvMain.DataSource = this.cassaLogBindingSource;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -128,7 +124,7 @@
             // 
             // transactioncassaoperationDataGridViewTextBoxColumn
             // 
-            this.transactioncassaoperationDataGridViewTextBoxColumn.DataPropertyName = "transaction_cassa_operation";
+            this.transactioncassaoperationDataGridViewTextBoxColumn.DataPropertyName = "TransactionCassaOperationString";
             this.transactioncassaoperationDataGridViewTextBoxColumn.HeaderText = "Операция";
             this.transactioncassaoperationDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.transactioncassaoperationDataGridViewTextBoxColumn.Name = "transactioncassaoperationDataGridViewTextBoxColumn";
@@ -150,30 +146,6 @@
             this.getSourceStringDataGridViewTextBoxColumn.Name = "getSourceStringDataGridViewTextBoxColumn";
             this.getSourceStringDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // transactionwithdrawaltypeDataGridViewTextBoxColumn
-            // 
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn.DataPropertyName = "transaction_withdrawal_type";
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn.HeaderText = "Способ";
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn.Name = "transactionwithdrawaltypeDataGridViewTextBoxColumn";
-            this.transactionwithdrawaltypeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // transactionsourcebalanceDataGridViewTextBoxColumn
-            // 
-            this.transactionsourcebalanceDataGridViewTextBoxColumn.DataPropertyName = "transaction_source_balance";
-            this.transactionsourcebalanceDataGridViewTextBoxColumn.HeaderText = "После операции";
-            this.transactionsourcebalanceDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.transactionsourcebalanceDataGridViewTextBoxColumn.Name = "transactionsourcebalanceDataGridViewTextBoxColumn";
-            this.transactionsourcebalanceDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // getSourceDescriptionDataGridViewTextBoxColumn
-            // 
-            this.getSourceDescriptionDataGridViewTextBoxColumn.DataPropertyName = "GetSourceDescription";
-            this.getSourceDescriptionDataGridViewTextBoxColumn.HeaderText = "Примечание";
-            this.getSourceDescriptionDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.getSourceDescriptionDataGridViewTextBoxColumn.Name = "getSourceDescriptionDataGridViewTextBoxColumn";
-            this.getSourceDescriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // transactiondateDataGridViewTextBoxColumn
             // 
             this.transactiondateDataGridViewTextBoxColumn.DataPropertyName = "transaction_date";
@@ -181,6 +153,13 @@
             this.transactiondateDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.transactiondateDataGridViewTextBoxColumn.Name = "transactiondateDataGridViewTextBoxColumn";
             this.transactiondateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "GetCassaDescription";
+            this.Column1.HeaderText = "Примечание";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
             // userDataGridViewTextBoxColumn
             // 
@@ -207,14 +186,15 @@
 
         #endregion
         private Guna.UI2.WinForms.Guna2DataGridView dgvMain;
-        private System.Windows.Forms.DataGridViewTextBoxColumn transactioncassaoperationDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn transactionamountDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn getSourceStringDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource cassaLogBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn transactionwithdrawaltypeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn transactionsourcebalanceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn getSourceDescriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn transactioncassaoperationDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn transactionamountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn getSourceStringDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn transactiondateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn userDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource cassaLogBindingSource;
     }
 }

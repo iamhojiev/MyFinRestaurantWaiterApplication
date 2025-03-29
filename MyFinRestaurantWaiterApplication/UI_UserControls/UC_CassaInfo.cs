@@ -61,9 +61,9 @@ namespace MyFinCassa.UC
                 bool isDeposit = rbtPut.Checked;
                 if (!await ProcessTransactionAsync(transactionAmount, isDeposit)) return;
 
-                Dialog.Info("Баланс кассы успешно изменен!");
                 ClearInputFields();
                 await UpdateTextsAsync();
+                Dialog.Info("Баланс кассы успешно изменен!");
             }
             catch (Exception ex)
             {
@@ -84,11 +84,12 @@ namespace MyFinCassa.UC
         private async Task<bool> ProcessTransactionAsync(double transactionAmount, bool isDeposit)
         {
             double cassaBalance = myCassa.cassa_money;
+            string comment = txtComment.Text.Trim();
 
             if (isDeposit)
             {
                 cassaBalance += transactionAmount;
-                await BalanceSystem.Instance.AddCassaOperation(EnumCassaOperationType.Пополнение, transactionAmount, cassaBalance, myCassa.cassa_id);
+                await BalanceSystem.Instance.AddCassaOperation(EnumCassaOperationType.Пополнение, transactionAmount, myCassa.cassa_id, description: comment);
             }
             else
             {
@@ -98,7 +99,7 @@ namespace MyFinCassa.UC
                     return false;
                 }
                 cassaBalance -= transactionAmount;
-                await BalanceSystem.Instance.AddCassaOperation(EnumCassaOperationType.Снятие, transactionAmount, cassaBalance, myCassa.cassa_id, EnumWithdrawalType.Наличными);
+                await BalanceSystem.Instance.AddCassaOperation(EnumCassaOperationType.Снятие, transactionAmount, myCassa.cassa_id, description: comment);
             }
 
             myCassa.cassa_money = cassaBalance;
@@ -125,7 +126,7 @@ namespace MyFinCassa.UC
 
         private void btnCardsInfo_Click(object sender, EventArgs e)
         {
-            using (var cardsForm = new FrmCardType("Информация по счету"))
+            using (var cardsForm = new FrmCardType())
             {
                 cardsForm.ShowDialog();
             }

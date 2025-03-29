@@ -15,12 +15,10 @@ namespace MyFinCassa.Model
         public double transaction_balance { get; set; }
         public string transaction_date { get; set; }
         public string transaction_description { get; set; }
-        public string transaction_source_description { get; set; }
 
         public User user { get; set; }
 
         public string GetDescription { get { return string.IsNullOrEmpty(transaction_description) ? "-" : transaction_description; } }
-        public string GetSourceDescription { get { return string.IsNullOrEmpty(transaction_source_description) ? "-" : transaction_source_description; } }
 
         protected static RestClient client = new RestClient(DataSQL.URL + @"/transactions");
 
@@ -88,33 +86,27 @@ namespace MyFinCassa.Model
                 .AddParameter("transaction_amount", transaction.transaction_amount)
                 .AddParameter("transaction_balance", transaction.transaction_balance)
                 .AddParameter("transaction_date", transaction.transaction_date)
-                .AddParameter("transaction_description", transaction.transaction_description)
-                .AddParameter("transaction_source_description", transaction.transaction_source_description);
+                .AddParameter("transaction_description", transaction.transaction_description);
 
             if (transaction is CassaLog cassaTransaction)
             {
                 req.AddParameter("transaction_cassa", cassaTransaction.transaction_cassa)
-                   .AddParameter("transaction_source_balance", (int)cassaTransaction.transaction_source_balance)
-                   .AddParameter("transaction_cassa_operation", (int)cassaTransaction.transaction_cassa_operation)
-                   .AddParameter("transaction_withdrawal_type", (int)cassaTransaction.transaction_withdrawal_type);
+                   .AddParameter("transaction_card", cassaTransaction.transaction_card)
+                   .AddParameter("transaction_cassa_description", cassaTransaction.transaction_cassa_description)
+                   .AddParameter("transaction_cassa_operation", (int)cassaTransaction.transaction_cassa_operation);
             }
 
             if (transaction is EntryLog entryTransaction)
             {
-                req.AddParameter("transaction_entry", entryTransaction.transaction_entry);
-            }
-
-            if (transaction is OrderCashLog orderCashTransaction)
-            {
-                req.AddParameter("transaction_order", orderCashTransaction.transaction_order)
-                   .AddParameter("transaction_cassa", orderCashTransaction.transaction_cassa)
-                   .AddParameter("transaction_payment", (int)orderCashTransaction.transaction_payment);
+                req.AddParameter("transaction_entry", entryTransaction.transaction_entry)
+                    .AddParameter("transaction_entry_description", entryTransaction.transaction_entry_description);
             }
 
             if (transaction is SalaryLog salaryTransaction)
             {
                 req.AddParameter("transaction_salary_type", (int)salaryTransaction.transaction_salary_type)
-                    .AddParameter("transaction_salary_user", (int)salaryTransaction.transaction_salary_user);
+                    .AddParameter("transaction_salary_user", salaryTransaction.transaction_salary_user)
+                    .AddParameter("transaction_salary_description", salaryTransaction.transaction_salary_description);
             }
 
             var res = await client.PostAsync(req);
@@ -137,26 +129,22 @@ namespace MyFinCassa.Model
             if (transaction is CassaLog cassaTransaction)
             {
                 req.AddParameter("transaction_cassa", cassaTransaction.transaction_cassa)
-                   .AddParameter("transaction_source_balance", (int)cassaTransaction.transaction_source_balance)
-                   .AddParameter("transaction_cassa_operation", (int)cassaTransaction.transaction_cassa_operation)
-                   .AddParameter("transaction_withdrawal_type", (int)cassaTransaction.transaction_withdrawal_type);
+                   .AddParameter("transaction_card", cassaTransaction.transaction_card)
+                   .AddParameter("transaction_cassa_description", cassaTransaction.transaction_cassa_description)
+                   .AddParameter("transaction_cassa_operation", (int)cassaTransaction.transaction_cassa_operation);
             }
 
             if (transaction is EntryLog entryTransaction)
             {
-                req.AddParameter("transaction_entry", entryTransaction.transaction_entry);
-            }
-
-            if (transaction is OrderCashLog orderCashTransaction)
-            {
-                req.AddParameter("transaction_order", orderCashTransaction.transaction_order)
-                   .AddParameter("transaction_cassa", orderCashTransaction.transaction_cassa)
-                   .AddParameter("transaction_payment", (int)orderCashTransaction.transaction_payment);
+                req.AddParameter("transaction_entry", entryTransaction.transaction_entry)
+                    .AddParameter("transaction_entry_description", entryTransaction.transaction_entry_description);
             }
 
             if (transaction is SalaryLog salaryTransaction)
             {
-                req.AddParameter("transaction_salary_type", (int)salaryTransaction.transaction_salary_type);
+                req.AddParameter("transaction_salary_type", (int)salaryTransaction.transaction_salary_type)
+                    .AddParameter("transaction_salary_user", salaryTransaction.transaction_salary_user)
+                    .AddParameter("transaction_salary_description", salaryTransaction.transaction_salary_description);
             }
 
             var res = await client.PostAsync(req);

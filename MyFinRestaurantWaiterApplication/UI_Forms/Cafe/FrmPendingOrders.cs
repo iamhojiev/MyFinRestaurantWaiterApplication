@@ -209,7 +209,7 @@ namespace MyFinCassa.UI_Forms.Cafe
                 return;
             }
 
-            PrinterHelper.PrintOrderReceipt(SelectedOrder);
+            PrinterHelper.PrintCafeOrderReceipt(SelectedOrder);
         }
 
         private void SetLoadingState(bool isLoading)

@@ -44,7 +44,7 @@ namespace MyFinCassa.Helper
             PrinterService.PrintCancelOrder(order, products, printerName);
         }
 
-        public static void PrintOrderReceipt(Order order, bool payed = false, double price = 0.0)
+        public static void PrintCafeOrderReceipt(Order order, bool payed = false, double price = 0.0)
         {
             string printerName = DataSQL.OnMyConfig()?.printer;
 
@@ -54,7 +54,20 @@ namespace MyFinCassa.Helper
                 return;
             }
 
-            PrinterService.PrintOrder(order, printerName, payed, price);
+            PrinterService.PrintOrder(order, printerName, EnumRenderType.Cafe, payed, price);
+        }
+
+        public static void PrintRestaurantOrderReceipt(Order order, bool payed = false, double price = 0.0)
+        {
+            string printerName = DataSQL.OnMyConfig()?.printer;
+
+            if (string.IsNullOrEmpty(printerName))
+            {
+                Dialog.Error("Принтер не настроен.");
+                return;
+            }
+
+            PrinterService.PrintOrder(order, printerName, EnumRenderType.Restaurant, payed, price);
         }
     }
 

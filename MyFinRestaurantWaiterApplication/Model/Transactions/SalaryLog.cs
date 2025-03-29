@@ -10,7 +10,7 @@ namespace MyFinCassa.Model
     {
         public EnumSalaryLogType transaction_salary_type { get; set; }
         public int transaction_salary_user { get; set; }
-
+        public string transaction_salary_description { get; set; }
         public User salary_user { get; set; }
 
         public new async Task<List<SalaryLog>> OnLoadTransactionsAsync()
@@ -24,5 +24,4 @@ namespace MyFinCassa.Model
             return source;
         }
     }
-
 }

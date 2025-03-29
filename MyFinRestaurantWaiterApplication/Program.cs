@@ -14,7 +14,7 @@ namespace MyFinCassa
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RestaurantMainForm());
+            Application.Run(new CafeMainForm());
         }
     }
 }

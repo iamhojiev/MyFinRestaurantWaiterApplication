@@ -18,29 +18,27 @@ namespace MyFinCassa.UC
 
         public async Task UpdateGrid()
         {
-            // Инициализация BindingSource
-            var bindingSource = new BindingSource();
-
-            // Получение текущего пользователя
             var userId = Settings.Default.user_id;
 
-            // Загрузка смен текущего пользователя
-            var shifts = (await new Shift().OnLoadAsync())
-                .Where(shift => shift.shift_user_id == userId)
-                .ToList();
+            // Параллельная загрузка всех данных
+            var loadShiftsTask = new Shift().LoadUserShiftsAsync(userId);
+            var loadUsersTask = new User().OnAllUserAsync();
+            var loadOrdersTask = new Order().OnLoadAsync();
 
-            // Загрузка пользователей для сопоставления
-            var users = await new User().OnAllUserAsync();
+            await Task.WhenAll(loadShiftsTask, loadUsersTask, loadOrdersTask);
+
+            var userShifts = await loadShiftsTask;
+            var users = await loadUsersTask;
+            var orders = await loadOrdersTask;
 
             // Связывание пользователей с каждой сменой
-            foreach (var shift in shifts)
+            foreach (var shift in userShifts)
             {
                 shift.user = users.FirstOrDefault(u => u.user_id == shift.shift_user_id);
+                shift.shiftOrders = orders.Where(or => or.order_shift == shift.shift_id).ToList();
             }
 
-            // Привязка данных к DataGridView
-            bindingSource.DataSource = shifts;
-            dgvMain.DataSource = bindingSource;
+            dgvMain.DataSource = userShifts;
         }
 
         private void DgvMain_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

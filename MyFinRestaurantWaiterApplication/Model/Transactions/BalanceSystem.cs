@@ -13,9 +13,9 @@ namespace MyFinCassa.Model
         private TransactionLog dbTransactionLog = new TransactionLog();
         private CassaLog dbCassaLog = new CassaLog();
         private EntryLog dbEntryLog = new EntryLog();
-        private OrderCashLog dbOrderLog = new OrderCashLog();
         private SalaryLog dbSalaryLog = new SalaryLog();
         private Balance dbBalance = new Balance();
+
 
         public async Task<double> GetCurrentBalance()
         {
@@ -99,20 +99,21 @@ namespace MyFinCassa.Model
         }
 
         // Методы для работы с CassaLog
-        public async Task AddCassaOperation(EnumCassaOperationType operationType, double amount, double balance, int cassaId, EnumWithdrawalType withdrawalType = EnumWithdrawalType.Наличными, string description = "")
+        public async Task AddCassaOperation(EnumCassaOperationType operationType, double amount, int cassaId = 0, int cardId = 0, string description = "")
         {
             var cassaLog = new CassaLog
             {
                 transaction_type = operationType == EnumCassaOperationType.Пополнение ?
                     EnumTransactionType.Расход :
                     EnumTransactionType.Доход,
-                transaction_withdrawal_type = operationType == EnumCassaOperationType.Снятие ?
-                    withdrawalType : 0,
+                transaction_description = operationType == EnumCassaOperationType.Пополнение ?
+                    "Пополнение кассы" :
+                    "Выемка кассы",
                 transaction_cassa_operation = operationType,
                 transaction_amount = amount,
-                transaction_source_balance = balance,
-                transaction_source_description = description,
+                transaction_cassa_description = description,
                 transaction_cassa = cassaId,
+                transaction_card = cardId,
                 transaction_date = MyDate.DateFormat(),
                 transaction_user = Settings.Default.user_id,
             };
@@ -120,42 +121,15 @@ namespace MyFinCassa.Model
             await AddTransaction(cassaLog);
         }
 
-        // Методы для работы с CashLog
-        public async Task AddCashOperation(EnumPaymentType paymentType, double amount, int orderId, int cassaId, string description = "")
-        {
-            var cashLog = new OrderCashLog
-            {
-                transaction_payment = paymentType,
-                transaction_amount = amount,
-                transaction_source_description = description,
-                transaction_order = orderId,
-                transaction_cassa = cassaId,
-                transaction_date = MyDate.DateFormat(),
-                transaction_user = Settings.Default.user_id,
-            };
-
-            await AddTransaction(cashLog);
-        }
-
-        public async Task DeleteOrderOperation(int orderId)
-        {
-            var orderTransactions = await dbOrderLog.OnSelectOrderTransactionAsync(orderId);
-
-            foreach (var transaction in orderTransactions)
-            {
-                await DeleteTransaction(transaction);
-            }
-        }
-
-        // Методы для работы с приходами (EntryLog)
         public async Task AddEntryOperation(double amount, int entryId, string description = "")
         {
             var entryLog = new EntryLog
             {
                 transaction_type = EnumTransactionType.Расход, // Приход всегда уменшает баланс
                 transaction_amount = amount,
-                transaction_source_description = description,
+                transaction_entry_description = description,
                 transaction_entry = entryId,
+                transaction_description = $"Приход №{entryId}",
                 transaction_date = MyDate.DateFormat(),
                 transaction_user = Settings.Default.user_id,
             };
@@ -182,7 +156,8 @@ namespace MyFinCassa.Model
                                     EnumTransactionType.Расход : 0,
                 transaction_salary_type = operationType,
                 transaction_amount = amount,
-                transaction_source_description = description,
+                transaction_salary_description = description,
+                transaction_description = description,
                 transaction_date = MyDate.DateFormat(),
                 transaction_salary_user = userId,
                 transaction_user = Settings.Default.user_id,

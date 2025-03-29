@@ -8,6 +8,7 @@ namespace MyFinCassa.Model
     public class EntryLog : TransactionLog
     {
         public int transaction_entry { get; set; } // Для связи с приходом
+        public string transaction_entry_description { get; set; }
 
         public async Task<List<EntryLog>> OnSelectEntryTransactionsAsync(int entryId)
         {

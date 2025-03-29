@@ -31,7 +31,6 @@ namespace MyFinCassa
             btnMainMenu.PerformClick();
             Globals.UserControlEvent += OnUserControlEvent;
             Globals.QuitEvent += OnQuit;
-
         }
 
         private async void InitUser()
@@ -183,7 +182,7 @@ namespace MyFinCassa
         private void btnCassa_Click(object sender, EventArgs e)
         {
             if (MyCassa == null) MyCassa = new UC_NewCassa();
-            else MyCassa.ShiftMaxenation();
+            else MyCassa.CheckShiftStatus();
             SetUserControl(MyCassa);
         }
 

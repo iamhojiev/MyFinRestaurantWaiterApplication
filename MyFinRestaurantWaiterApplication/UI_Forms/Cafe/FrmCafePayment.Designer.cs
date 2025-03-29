@@ -56,8 +56,8 @@
             this.btnAdd200 = new System.Windows.Forms.Button();
             this.btnAmount = new Guna.UI2.WinForms.Guna2Button();
             this.btnClearAll = new Guna.UI2.WinForms.Guna2Button();
-            this.btnPay = new Guna.UI2.WinForms.Guna2Button();
             this.btnPayWithCheck = new Guna.UI2.WinForms.Guna2Button();
+            this.btnPay = new Guna.UI2.WinForms.Guna2Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtGet = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
@@ -143,8 +143,8 @@
             this.flowLayoutPanel1.Controls.Add(this.btnAdd200);
             this.flowLayoutPanel1.Controls.Add(this.btnAmount);
             this.flowLayoutPanel1.Controls.Add(this.btnClearAll);
-            this.flowLayoutPanel1.Controls.Add(this.btnPay);
             this.flowLayoutPanel1.Controls.Add(this.btnPayWithCheck);
+            this.flowLayoutPanel1.Controls.Add(this.btnPay);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 212);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -395,11 +395,11 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Segoe UI", 20F);
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnClear.Image = ((System.Drawing.Image)(resources.GetObject("btnClear.Image")));
             this.btnClear.Location = new System.Drawing.Point(175, 231);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(80, 70);
             this.btnClear.TabIndex = 36;
-            this.btnClear.Text = "<-";
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
@@ -439,9 +439,11 @@
             this.btnAmount.CheckedState.Parent = this.btnAmount;
             this.btnAmount.CustomImages.Parent = this.btnAmount;
             this.btnAmount.FillColor = System.Drawing.Color.SteelBlue;
-            this.btnAmount.Font = new System.Drawing.Font("Segoe UI", 20F);
+            this.btnAmount.Font = new System.Drawing.Font("Segoe UI", 18F);
             this.btnAmount.ForeColor = System.Drawing.Color.White;
             this.btnAmount.HoverState.Parent = this.btnAmount;
+            this.btnAmount.Image = ((System.Drawing.Image)(resources.GetObject("btnAmount.Image")));
+            this.btnAmount.ImageSize = new System.Drawing.Size(40, 40);
             this.btnAmount.Location = new System.Drawing.Point(5, 309);
             this.btnAmount.Margin = new System.Windows.Forms.Padding(5);
             this.btnAmount.Name = "btnAmount";
@@ -459,9 +461,11 @@
             this.btnClearAll.CheckedState.Parent = this.btnClearAll;
             this.btnClearAll.CustomImages.Parent = this.btnClearAll;
             this.btnClearAll.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(72)))), ((int)(((byte)(72)))));
-            this.btnClearAll.Font = new System.Drawing.Font("Segoe UI", 20F);
+            this.btnClearAll.Font = new System.Drawing.Font("Segoe UI", 18F);
             this.btnClearAll.ForeColor = System.Drawing.Color.White;
             this.btnClearAll.HoverState.Parent = this.btnClearAll;
+            this.btnClearAll.Image = ((System.Drawing.Image)(resources.GetObject("btnClearAll.Image")));
+            this.btnClearAll.ImageSize = new System.Drawing.Size(40, 40);
             this.btnClearAll.Location = new System.Drawing.Point(231, 309);
             this.btnClearAll.Margin = new System.Windows.Forms.Padding(5);
             this.btnClearAll.Name = "btnClearAll";
@@ -471,28 +475,6 @@
             this.btnClearAll.Text = "Очистить";
             this.btnClearAll.Click += new System.EventHandler(this.BtnClearAll_Click);
             // 
-            // btnPay
-            // 
-            this.btnPay.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnPay.BorderRadius = 10;
-            this.btnPay.BorderThickness = 1;
-            this.btnPay.CheckedState.Parent = this.btnPay;
-            this.btnPay.CustomImages.Parent = this.btnPay;
-            this.btnPay.FillColor = System.Drawing.Color.SeaGreen;
-            this.btnPay.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPay.ForeColor = System.Drawing.Color.White;
-            this.btnPay.HoverState.Parent = this.btnPay;
-            this.btnPay.Image = ((System.Drawing.Image)(resources.GetObject("btnPay.Image")));
-            this.btnPay.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnPay.Location = new System.Drawing.Point(5, 384);
-            this.btnPay.Margin = new System.Windows.Forms.Padding(5);
-            this.btnPay.Name = "btnPay";
-            this.btnPay.ShadowDecoration.Parent = this.btnPay;
-            this.btnPay.Size = new System.Drawing.Size(216, 65);
-            this.btnPay.TabIndex = 17;
-            this.btnPay.Text = "Без чека";
-            this.btnPay.Click += new System.EventHandler(this.BtnPay_Click);
-            // 
             // btnPayWithCheck
             // 
             this.btnPayWithCheck.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -501,12 +483,12 @@
             this.btnPayWithCheck.CheckedState.Parent = this.btnPayWithCheck;
             this.btnPayWithCheck.CustomImages.Parent = this.btnPayWithCheck;
             this.btnPayWithCheck.FillColor = System.Drawing.Color.SeaGreen;
-            this.btnPayWithCheck.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPayWithCheck.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold);
             this.btnPayWithCheck.ForeColor = System.Drawing.Color.White;
             this.btnPayWithCheck.HoverState.Parent = this.btnPayWithCheck;
             this.btnPayWithCheck.Image = ((System.Drawing.Image)(resources.GetObject("btnPayWithCheck.Image")));
-            this.btnPayWithCheck.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnPayWithCheck.Location = new System.Drawing.Point(231, 384);
+            this.btnPayWithCheck.ImageSize = new System.Drawing.Size(40, 40);
+            this.btnPayWithCheck.Location = new System.Drawing.Point(5, 384);
             this.btnPayWithCheck.Margin = new System.Windows.Forms.Padding(5);
             this.btnPayWithCheck.Name = "btnPayWithCheck";
             this.btnPayWithCheck.ShadowDecoration.Parent = this.btnPayWithCheck;
@@ -514,6 +496,28 @@
             this.btnPayWithCheck.TabIndex = 18;
             this.btnPayWithCheck.Text = "С чеком";
             this.btnPayWithCheck.Click += new System.EventHandler(this.BtnPayWithCheck_Click);
+            // 
+            // btnPay
+            // 
+            this.btnPay.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnPay.BorderRadius = 10;
+            this.btnPay.BorderThickness = 1;
+            this.btnPay.CheckedState.Parent = this.btnPay;
+            this.btnPay.CustomImages.Parent = this.btnPay;
+            this.btnPay.FillColor = System.Drawing.Color.SeaGreen;
+            this.btnPay.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold);
+            this.btnPay.ForeColor = System.Drawing.Color.White;
+            this.btnPay.HoverState.Parent = this.btnPay;
+            this.btnPay.Image = ((System.Drawing.Image)(resources.GetObject("btnPay.Image")));
+            this.btnPay.ImageSize = new System.Drawing.Size(40, 40);
+            this.btnPay.Location = new System.Drawing.Point(231, 384);
+            this.btnPay.Margin = new System.Windows.Forms.Padding(5);
+            this.btnPay.Name = "btnPay";
+            this.btnPay.ShadowDecoration.Parent = this.btnPay;
+            this.btnPay.Size = new System.Drawing.Size(216, 65);
+            this.btnPay.TabIndex = 17;
+            this.btnPay.Text = "Без чека";
+            this.btnPay.Click += new System.EventHandler(this.BtnPay_Click);
             // 
             // panel1
             // 
@@ -577,7 +581,7 @@
             this.dgvProduct.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(234)))), ((int)(((byte)(237)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(234)))), ((int)(((byte)(237)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -592,7 +596,7 @@
             this.dgvProduct.DataSource = this.productBindingSource;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 12F);
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(241)))), ((int)(((byte)(243)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
@@ -620,14 +624,14 @@
             this.dgvProduct.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(241)))), ((int)(((byte)(243)))));
             this.dgvProduct.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(234)))), ((int)(((byte)(237)))));
             this.dgvProduct.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgvProduct.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvProduct.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.dgvProduct.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvProduct.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             this.dgvProduct.ThemeStyle.HeaderStyle.Height = 40;
             this.dgvProduct.ThemeStyle.ReadOnly = true;
             this.dgvProduct.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvProduct.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.dgvProduct.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvProduct.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.dgvProduct.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvProduct.ThemeStyle.RowsStyle.Height = 40;
             this.dgvProduct.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(241)))), ((int)(((byte)(243)))));
@@ -637,11 +641,11 @@
             // 
             this.prod_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.prod_name.DataPropertyName = "prod_name";
-            this.prod_name.HeaderText = "Наимен.";
+            this.prod_name.HeaderText = "Наименование";
             this.prod_name.MinimumWidth = 6;
             this.prod_name.Name = "prod_name";
             this.prod_name.ReadOnly = true;
-            this.prod_name.Width = 133;
+            this.prod_name.Width = 178;
             // 
             // prod_price
             // 
@@ -1064,7 +1068,7 @@
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -1153,10 +1157,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.BindingSource productBindingSource;
         private Guna.UI2.WinForms.Guna2DataGridView dgvProduct;
-        private System.Windows.Forms.DataGridViewTextBoxColumn prod_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn prod_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn prod_count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sumDataGridViewTextBoxColumn;
         private System.Windows.Forms.Label txtDeliveryPrice;
         private Guna.UI2.WinForms.Guna2Separator guna2Separator2;
         private System.Windows.Forms.Panel panel9;
@@ -1168,5 +1168,9 @@
         private System.Windows.Forms.Label txtDiscount;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prod_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prod_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prod_count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sumDataGridViewTextBoxColumn;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Guna.UI2.WinForms;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using MyFinCassa.UC;
@@ -15,13 +14,10 @@ namespace MyFinCassa.UI_Forms
         public Card SelectedCard { get; private set; }
         private string currency;
 
-        public FrmCardType(string title = null)
+        public FrmCardType()
         {
             InitializeComponent();
-            if (!string.IsNullOrEmpty(title))
-            {
-                txtTittle.Text = title;
-            }
+
             UpdateCard();
         }
 

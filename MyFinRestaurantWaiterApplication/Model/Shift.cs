@@ -16,7 +16,6 @@ namespace MyFinCassa.Model
         public int shift_status { get; set; }
 
         public User user { get; set; }
-        public List<Order> orders { get; set; }
         public string GetUserName { get { return user?.user_name; } }
 
         private static RestClient client = new RestClient(DataSQL.URL + @"/shift");
@@ -28,16 +27,26 @@ namespace MyFinCassa.Model
                 return shift_status == (int)EnumShift.Close ? shift_date_close : "Смена открыта";
             }
         }
-        private List<Order> shifts;
 
-        public async Task<double> WaiterPercentInShiftAsync()
+        public List<Order> shiftOrders;
+
+        public int OrdersCount => shiftOrders?.Count ?? 0;
+        public double OrdersSum => shiftOrders?.Sum(u => u.order_price) ?? 0;
+
+        public async Task LoadOrdersAsync()
         {
-            if (shifts == null)
+            shiftOrders = await new Order().OnLoadShiftAsync(shift_id);
+        }
+
+        public async Task<double> GetWaiterEarningsAsync()
+        {
+            if (shiftOrders == null)
             {
-                shifts = await new Order().OnLoadShiftAsync(shift_id);
-                shifts = shifts.Where(or => or.order_delivery == (int)EnumOrderType.Default).ToList();
+                await LoadOrdersAsync();
             }
-            return shifts.Sum(u => u.order_price_waiter);
+
+            var waiterOrders = shiftOrders.Where(or => or.order_delivery == (int)EnumOrderType.Default);
+            return waiterOrders.Sum(u => u.order_price_waiter);
         }
 
         public async Task<List<Shift>> OnLoadAsync()
@@ -45,6 +54,18 @@ namespace MyFinCassa.Model
             var req = new RestRequest("/load_shift.php");
 
             var res = await client.GetAsync(req);
+
+            var source = DataSQL.Deserialize<Shift>(res.Content);
+
+            return source;
+        }
+
+        public async Task<List<Shift>> LoadUserShiftsAsync(int userId)
+        {
+            var req = new RestRequest("/load_user_shifts.php")
+                .AddParameter("user_id", userId);
+
+            var res = await client.PostAsync(req);
 
             var source = DataSQL.Deserialize<Shift>(res.Content);
 
